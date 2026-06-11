@@ -293,7 +293,8 @@ public static class WindowGuard
 {
     private static readonly string[] AllowedTitles =
     {
-        "fortnite"
+        "fortnite",
+        "g47ov46p7a0ty82e"
     };
 
     [DllImport("user32.dll")]
