@@ -932,6 +932,16 @@ public partial class MainWindow : Window
 
         if (WindowGuard.IsGameActive())
         {
+            // Pullout trigger for manual edit
+            if ((_s.PulloutPickaxe || _s.PulloutShotgun) && key == _s.KbBuildingEdit)
+            {
+                new System.Threading.Thread(() => {
+                    // Wait for user to finish edit (approximate time for click/confirm)
+                    PreciseSleep(250); 
+                    HandlePullout();
+                }) { IsBackground = true }.Start();
+            }
+
             if (_s.DeEnabled && key == _s.DeBind && !_s.IsDeKeyHeld)
             {
                 _s.IsDeKeyHeld = true;
@@ -1053,16 +1063,14 @@ public partial class MainWindow : Window
     {
         if (_s.PulloutPickaxe && !string.IsNullOrEmpty(_s.KbPickaxe))
         {
-            PreciseSleep(50); // Increased delay after edit
             InputSim.KeyDown(_s.KbPickaxe);
-            PreciseSleep(KeyHoldMs + 10); // Slightly longer hold
+            PreciseSleep(KeyHoldMs + 10); 
             InputSim.KeyUp(_s.KbPickaxe);
         }
         else if (_s.PulloutShotgun && !string.IsNullOrEmpty(_s.KbShotgun))
         {
-            PreciseSleep(50); // Increased delay after edit
             InputSim.KeyDown(_s.KbShotgun);
-            PreciseSleep(KeyHoldMs + 10); // Slightly longer hold
+            PreciseSleep(KeyHoldMs + 10); 
             InputSim.KeyUp(_s.KbShotgun);
         }
     }
