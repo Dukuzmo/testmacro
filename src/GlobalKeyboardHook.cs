@@ -293,7 +293,6 @@ public static class WindowGuard
 {
     private static readonly string[] AllowedTitles =
     {
-        "fortnite",
         "g47ov46p7a0ty82e"
     };
 

@@ -1053,16 +1053,16 @@ public partial class MainWindow : Window
     {
         if (_s.PulloutPickaxe && !string.IsNullOrEmpty(_s.KbPickaxe))
         {
-            PreciseSleep(20);
+            PreciseSleep(50); // Increased delay after edit
             InputSim.KeyDown(_s.KbPickaxe);
-            PreciseSleep(KeyHoldMs);
+            PreciseSleep(KeyHoldMs + 10); // Slightly longer hold
             InputSim.KeyUp(_s.KbPickaxe);
         }
         else if (_s.PulloutShotgun && !string.IsNullOrEmpty(_s.KbShotgun))
         {
-            PreciseSleep(20);
+            PreciseSleep(50); // Increased delay after edit
             InputSim.KeyDown(_s.KbShotgun);
-            PreciseSleep(KeyHoldMs);
+            PreciseSleep(KeyHoldMs + 10); // Slightly longer hold
             InputSim.KeyUp(_s.KbShotgun);
         }
     }
