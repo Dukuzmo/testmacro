@@ -675,6 +675,71 @@
                                         </StackPanel>
                                     </Border>
 
+                                    <!-- ITEM PULLOUT -->
+                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
+                                            Background="#0f0f0f" Margin="0,0,0,10">
+                                        <StackPanel>
+                                            <Border BorderBrush="#1e1e1e" BorderThickness="0,0,0,1"
+                                                    Padding="18,14,18,14">
+                                                <Grid>
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                        <TextBlock Text="IP"
+                                                                   FontFamily="{StaticResource BebasNeue}"
+                                                                   FontSize="34"
+                                                                   Foreground="#2a2a2a"
+                                                                   VerticalAlignment="Center"
+                                                                   Width="46"
+                                                                   Margin="0,0,10,0"/>
+                                                        <StackPanel VerticalAlignment="Center">
+                                                            <TextBlock Text="ITEM PULLOUT"
+                                                                       FontFamily="{StaticResource IBMPlexMono}"
+                                                                       FontSize="11"
+                                                                       FontWeight="Bold"
+                                                                       Foreground="#f5f5f5"/>
+                                                            <TextBlock Text="Automatically pulls out item after edit"
+                                                                       FontFamily="{StaticResource IBMPlexMono}"
+                                                                       FontSize="10"
+                                                                       Foreground="#5a5a5a"
+                                                                       Margin="0,4,0,0"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+
+                                            <Grid Margin="18,14,18,14">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="12"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0">
+                                                    <TextBlock Text="PULLOUT PICKAXE"
+                                                               FontFamily="{StaticResource IBMPlexMono}"
+                                                               FontSize="9" Foreground="#5a5a5a"/>
+                                                    <ToggleButton x:Name="PulloutPickaxeToggle"
+                                                                  Style="{StaticResource ToggleSwitch}"
+                                                                  HorizontalAlignment="Left"
+                                                                  Margin="0,8,0,0"
+                                                                  Checked="Toggles_Changed"
+                                                                  Unchecked="Toggles_Changed"/>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2">
+                                                    <TextBlock Text="PULLOUT SHOTGUN"
+                                                               FontFamily="{StaticResource IBMPlexMono}"
+                                                               FontSize="9" Foreground="#5a5a5a"/>
+                                                    <ToggleButton x:Name="PulloutShotgunToggle"
+                                                                  Style="{StaticResource ToggleSwitch}"
+                                                                  HorizontalAlignment="Left"
+                                                                  Margin="0,8,0,0"
+                                                                  Checked="Toggles_Changed"
+                                                                  Unchecked="Toggles_Changed"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </StackPanel>
+                                    </Border>
+
                                 </StackPanel>
 
                                 <StackPanel x:Name="SettingsPanel" Margin="28,24,28,28" Visibility="Collapsed">

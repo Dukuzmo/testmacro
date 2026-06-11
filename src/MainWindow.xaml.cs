@@ -307,6 +307,8 @@ public partial class MainWindow : Window
         DbToggle.IsChecked = _s.DbEnabled;
         IbToggle.IsChecked = _s.IbEnabled;
         SpToggle.IsChecked = _s.SpEnabled;
+        PulloutPickaxeToggle.IsChecked = _s.PulloutPickaxe;
+        PulloutShotgunToggle.IsChecked = _s.PulloutShotgun;
 
         DeSlider.Value = _s.DeDelayMs;
         SeSlider.Value = _s.SeDelayMs;
@@ -776,6 +778,20 @@ public partial class MainWindow : Window
         _s.DbEnabled = DbToggle.IsChecked == true;
         _s.IbEnabled = IbToggle.IsChecked == true;
         _s.SpEnabled = SpToggle.IsChecked == true;
+        _s.PulloutPickaxe = PulloutPickaxeToggle.IsChecked == true;
+        _s.PulloutShotgun = PulloutShotgunToggle.IsChecked == true;
+
+        if (s == PulloutPickaxeToggle && _s.PulloutPickaxe)
+        {
+            _s.PulloutShotgun = false;
+            PulloutShotgunToggle.IsChecked = false;
+        }
+        else if (s == PulloutShotgunToggle && _s.PulloutShotgun)
+        {
+            _s.PulloutPickaxe = false;
+            PulloutPickaxeToggle.IsChecked = false;
+        }
+
         RefreshStatusDots();
         RefreshArraylistOverlay();
     }
@@ -1033,6 +1049,24 @@ public partial class MainWindow : Window
 
     private static int SafeDelay(int ms) => Math.Max(10, ms);
 
+    private void HandlePullout()
+    {
+        if (_s.PulloutPickaxe && !string.IsNullOrEmpty(_s.KbPickaxe))
+        {
+            PreciseSleep(20);
+            InputSim.KeyDown(_s.KbPickaxe);
+            PreciseSleep(KeyHoldMs);
+            InputSim.KeyUp(_s.KbPickaxe);
+        }
+        else if (_s.PulloutShotgun && !string.IsNullOrEmpty(_s.KbShotgun))
+        {
+            PreciseSleep(20);
+            InputSim.KeyDown(_s.KbShotgun);
+            PreciseSleep(KeyHoldMs);
+            InputSim.KeyUp(_s.KbShotgun);
+        }
+    }
+
     private void RunDeSequence()
     {
         string editKey   = _s.KbBuildingEdit;
@@ -1060,6 +1094,8 @@ public partial class MainWindow : Window
                 PreciseSleep(5);
             InputSim.LeftUp();
         }
+
+        HandlePullout();
     }
 
     private void RunSeSequence()
@@ -1081,6 +1117,7 @@ public partial class MainWindow : Window
             InputSim.KeyUp(_s.KbSelectBuildingEdit);
         }
 
+        HandlePullout();
         _s.IsSeRunning = false;
     }
 
@@ -1110,6 +1147,8 @@ public partial class MainWindow : Window
 
             edits++;
         }
+
+        HandlePullout();
     }
 
 }

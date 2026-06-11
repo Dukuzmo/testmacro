@@ -16,6 +16,9 @@ public class AppState
     public bool SpEnabled { get; set; } = false;
     public bool DeEnabled { get; set; } = false;
 
+    public bool PulloutPickaxe { get; set; } = false;
+    public bool PulloutShotgun { get; set; } = false;
+
     public string SeBind { get; set; } = "";
     public string DbBind { get; set; } = "";
     public string SpBind { get; set; } = "";
