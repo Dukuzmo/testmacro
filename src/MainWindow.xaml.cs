@@ -22,6 +22,7 @@ public partial class MainWindow : Window
     private Button?         _bindingBtn;
 
     private volatile bool   _forwardKeyDown = false;
+    private bool _isManualEditPulloutRunning = false;
 
     private double           _scrollTarget;
     private DispatcherTimer? _scrollTimer;
@@ -935,11 +936,18 @@ public partial class MainWindow : Window
             // Pullout trigger for manual edit
             if ((_s.PulloutPickaxe || _s.PulloutShotgun) && key == _s.KbBuildingEdit)
             {
-                new System.Threading.Thread(() => {
-                    // Wait for user to finish edit (approximate time for click/confirm)
-                    PreciseSleep(250); 
-                    HandlePullout();
-                }) { IsBackground = true }.Start();
+                // We use a flag to prevent multiple triggers during one edit
+                if (!_isManualEditPulloutRunning)
+                {
+                    _isManualEditPulloutRunning = true;
+                    new System.Threading.Thread(() => {
+                        // Wait for user to finish edit (click/confirm)
+                        PreciseSleep(200); 
+                        HandlePullout();
+                        PreciseSleep(300); // Cooldown
+                        _isManualEditPulloutRunning = false;
+                    }) { IsBackground = true }.Start();
+                }
             }
 
             if (_s.DeEnabled && key == _s.DeBind && !_s.IsDeKeyHeld)

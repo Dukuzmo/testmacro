@@ -241,6 +241,11 @@ public static class InputSim
     private const uint MOUSEEVENTF_LEFTUP    = 0x0004;
     private const uint MOUSEEVENTF_RIGHTDOWN = 0x0008;
     private const uint MOUSEEVENTF_RIGHTUP   = 0x0010;
+    private const uint MOUSEEVENTF_XDOWN     = 0x0080;
+    private const uint MOUSEEVENTF_XUP       = 0x0100;
+
+    private const uint XBUTTON1 = 0x0001;
+    private const uint XBUTTON2 = 0x0002;
 
     private const uint KEYEVENTF_KEYUP = 0x0002;
 
@@ -250,10 +255,10 @@ public static class InputSim
     private static void Send(params INPUT[] inputs) =>
         SendInput((uint)inputs.Length, inputs, Marshal.SizeOf<INPUT>());
 
-    private static INPUT MouseInput(uint flags) => new INPUT
+    private static INPUT MouseInput(uint flags, uint data = 0) => new INPUT
     {
         type = INPUT_MOUSE,
-        u    = new INPUT_UNION { mi = new MOUSEINPUT { dwFlags = flags } }
+        u    = new INPUT_UNION { mi = new MOUSEINPUT { dwFlags = flags, mouseData = data } }
     };
 
     private static INPUT KeyInput(ushort vk, uint flags = 0) => new INPUT
@@ -276,6 +281,8 @@ public static class InputSim
 
     public static void KeyDown(string key)
     {
+        if (key == "Mouse4") { Send(MouseInput(MOUSEEVENTF_XDOWN, XBUTTON1)); return; }
+        if (key == "Mouse5") { Send(MouseInput(MOUSEEVENTF_XDOWN, XBUTTON2)); return; }
         ushort vk = GlobalKeyboardHook.StringToVk(key);
         if (vk == 0) return;
         Send(KeyInput(vk));
@@ -283,6 +290,8 @@ public static class InputSim
 
     public static void KeyUp(string key)
     {
+        if (key == "Mouse4") { Send(MouseInput(MOUSEEVENTF_XUP, XBUTTON1)); return; }
+        if (key == "Mouse5") { Send(MouseInput(MOUSEEVENTF_XUP, XBUTTON2)); return; }
         ushort vk = GlobalKeyboardHook.StringToVk(key);
         if (vk == 0) return;
         Send(KeyInput(vk, KEYEVENTF_KEYUP));
