@@ -289,10 +289,10 @@ public partial class MainWindow : Window
         if (FindName("SeBindBtn") is Button seB) seB.Content = DisplayKey(_s.SeBind);
         if (FindName("DbBindBtn") is Button dbB) dbB.Content = DisplayKey(_s.DbBind);
 
-        DeToggle.IsChecked = _s.DeEnabled;
-        SeToggle.IsChecked = _s.SeEnabled;
-        DbToggle.IsChecked = _s.DbEnabled;
-        IbToggle.IsChecked = _s.IbEnabled;
+        if (FindName("DeToggle") is ToggleButton deT) deT.IsChecked = _s.DeEnabled;
+        if (FindName("SeToggle") is ToggleButton seT) seT.IsChecked = _s.SeEnabled;
+        if (FindName("DbToggle") is ToggleButton dbT) dbT.IsChecked = _s.DbEnabled;
+        if (FindName("IbToggle") is ToggleButton ibT) ibT.IsChecked = _s.IbEnabled;
         
         if (FindName("PulloutPickaxeBox") is CheckBox pB) pB.IsChecked = _s.PulloutPickaxe;
         if (FindName("PulloutShotgunBox") is CheckBox sB) sB.IsChecked = _s.PulloutShotgun;
@@ -310,20 +310,26 @@ public partial class MainWindow : Window
 
     private void InitKeybindButtons()
     {
-        KbBuildingEditBtn.Content           = DisplayKey(_s.KbBuildingEdit);
-        KbSelectBuildingEditBtn.Content     = DisplayKey(_s.KbSelectBuildingEdit);
-        KbWallBtn.Content                   = DisplayKey(_s.KbWall);
-        KbFloorBtn.Content                  = DisplayKey(_s.KbFloor);
-        KbStairsBtn.Content                 = DisplayKey(_s.KbStairs);
-        KbConeBtn.Content                   = DisplayKey(_s.KbCone);
-        KbSecondaryPlaceBuildingBtn.Content = DisplayKey(_s.KbSecondaryPlaceBuilding);
-        KbPickaxeBtn.Content                = DisplayKey(_s.KbPickaxe);
-        KbShotgunBtn.Content                = DisplayKey(_s.KbShotgun);
-        KbSprintBtn.Content                 = DisplayKey(_s.KbSprint);
-        KbWalkForwardBtn.Content            = DisplayKey(_s.KbWalkForward);
-        KbInteractBtn.Content               = DisplayKey(_s.KbInteract);
-        KbSecondaryShootBtn.Content         = DisplayKey(_s.KbSecondaryShoot);
-        KbSecondaryWallBtn.Content          = DisplayKey(_s.KbSecondaryWall);
+        if (FindName("KbBuildingEditBtn") is Button b1) b1.Content = DisplayKey(_s.KbBuildingEdit);
+        if (FindName("KbSelectBuildingEditBtn") is Button b2) b2.Content = DisplayKey(_s.KbSelectBuildingEdit);
+        if (FindName("KbWallBtn") is Button b3) b3.Content = DisplayKey(_s.KbWall);
+        if (FindName("KbFloorBtn") is Button b4) b4.Content = DisplayKey(_s.KbFloor);
+        if (FindName("KbStairsBtn") is Button b5) b5.Content = DisplayKey(_s.KbStairs);
+        if (FindName("KbConeBtn") is Button b6) b6.Content = DisplayKey(_s.KbCone);
+        if (FindName("KbSecondaryPlaceBuildingBtn") is Button b7) b7.Content = DisplayKey(_s.KbSecondaryPlaceBuilding);
+        if (FindName("KbPickaxeBtn") is Button b8) b8.Content = DisplayKey(_s.KbPickaxe);
+        if (FindName("KbShotgunBtn") is Button b9) b9.Content = DisplayKey(_s.KbShotgun);
+        if (FindName("KbSprintBtn") is Button b10) b10.Content = DisplayKey(_s.KbSprint);
+        if (FindName("KbWalkForwardBtn") is Button b11) b11.Content = DisplayKey(_s.KbWalkForward);
+        if (FindName("KbInteractBtn") is Button b12) b12.Content = DisplayKey(_s.KbInteract);
+        if (FindName("KbSecondaryShootBtn") is Button b13) b13.Content = DisplayKey(_s.KbSecondaryShoot);
+        if (FindName("KbSecondaryWallBtn") is Button b14) b14.Content = DisplayKey(_s.KbSecondaryWall);
+        
+        if (FindName("KbSlot1Btn") is Button s1) s1.Content = DisplayKey(_s.KbSlot1);
+        if (FindName("KbSlot2Btn") is Button s2) s2.Content = DisplayKey(_s.KbSlot2);
+        if (FindName("KbSlot3Btn") is Button s3) s3.Content = DisplayKey(_s.KbSlot3);
+        if (FindName("KbSlot4Btn") is Button s4) s4.Content = DisplayKey(_s.KbSlot4);
+        if (FindName("KbSlot5Btn") is Button s5) s5.Content = DisplayKey(_s.KbSlot5);
     }
 
     private void RefreshDelayLabels()
@@ -577,24 +583,31 @@ public partial class MainWindow : Window
 
     private void Close_Click(object s, RoutedEventArgs e)
     {
-        GoodbyeOverlay.Visibility = Visibility.Visible;
-        var fadeIn = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(300)))
+        if (FindName("GoodbyeOverlay") is Grid go)
         {
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-        };
-        GoodbyeOverlay.BeginAnimation(OpacityProperty, fadeIn);
-        var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2.5) };
-        timer.Tick += (_, _) =>
-        {
-            timer.Stop();
-            var fadeOut = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(350)))
+            go.Visibility = Visibility.Visible;
+            var fadeIn = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromMilliseconds(300)))
             {
-                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseIn }
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
             };
-            fadeOut.Completed += (_, _) => Application.Current.Shutdown();
-            BeginAnimation(OpacityProperty, fadeOut);
-        };
-        timer.Start();
+            go.BeginAnimation(OpacityProperty, fadeIn);
+            var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2.5) };
+            timer.Tick += (_, _) =>
+            {
+                timer.Stop();
+                var fadeOut = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromMilliseconds(350)))
+                {
+                    EasingFunction = new CubicEase { EasingMode = EasingMode.EaseIn }
+                };
+                fadeOut.Completed += (_, _) => Application.Current.Shutdown();
+                BeginAnimation(OpacityProperty, fadeOut);
+            };
+            timer.Start();
+        }
+        else
+        {
+            Application.Current.Shutdown();
+        }
     }
 
     private void AnimateNavSelect(Button activate)
@@ -606,19 +619,22 @@ public partial class MainWindow : Window
 
     private void HideAllPanels()
     {
-        MacrosPanel.Visibility     = Visibility.Collapsed;
-        SettingsPanel.Visibility   = Visibility.Collapsed;
-        KeybindsPanel.Visibility   = Visibility.Collapsed;
-        if (FindName("CrosshairsPanel") is FrameworkElement cp) cp.Visibility = Visibility.Collapsed;
-        if (FindName("ArraylistPanel") is FrameworkElement ap) ap.Visibility = Visibility.Collapsed;
+        if (FindName("MacrosPanel") is FrameworkElement p1) p1.Visibility = Visibility.Collapsed;
+        if (FindName("SettingsPanel") is FrameworkElement p2) p2.Visibility = Visibility.Collapsed;
+        if (FindName("KeybindsPanel") is FrameworkElement p3) p3.Visibility = Visibility.Collapsed;
+        if (FindName("CrosshairsPanel") is FrameworkElement p4) p4.Visibility = Visibility.Collapsed;
+        if (FindName("ArraylistPanel") is FrameworkElement p5) p5.Visibility = Visibility.Collapsed;
     }
 
     private void BtnMacros_Click(object s, RoutedEventArgs e)
     {
         HideAllPanels();
-        MacrosPanel.Visibility = Visibility.Visible;
-        FadeInPanel(MacrosPanel);
-        AnimateNavSelect(BtnMacros);
+        if (FindName("MacrosPanel") is StackPanel p)
+        {
+            p.Visibility = Visibility.Visible;
+            FadeInPanel(p);
+        }
+        if (s is Button b) AnimateNavSelect(b);
         _scrollTarget = 0;
         MainScrollViewer.ScrollToTop();
     }
@@ -626,9 +642,12 @@ public partial class MainWindow : Window
     private void BtnSettings_Click(object s, RoutedEventArgs e)
     {
         HideAllPanels();
-        SettingsPanel.Visibility = Visibility.Visible;
-        FadeInPanel(SettingsPanel);
-        AnimateNavSelect(BtnSettings);
+        if (FindName("SettingsPanel") is StackPanel p)
+        {
+            p.Visibility = Visibility.Visible;
+            FadeInPanel(p);
+        }
+        if (s is Button b) AnimateNavSelect(b);
         _scrollTarget = 0;
         MainScrollViewer.ScrollToTop();
     }
@@ -636,9 +655,12 @@ public partial class MainWindow : Window
     private void BtnKeybinds_Click(object s, RoutedEventArgs e)
     {
         HideAllPanels();
-        KeybindsPanel.Visibility = Visibility.Visible;
-        FadeInPanel(KeybindsPanel);
-        AnimateNavSelect(BtnKeybinds);
+        if (FindName("KeybindsPanel") is StackPanel p)
+        {
+            p.Visibility = Visibility.Visible;
+            FadeInPanel(p);
+        }
+        if (s is Button b) AnimateNavSelect(b);
         _scrollTarget = 0;
         MainScrollViewer.ScrollToTop();
     }
@@ -646,8 +668,12 @@ public partial class MainWindow : Window
     private void BtnCrosshairs_Click(object s, RoutedEventArgs e)
     {
         HideAllPanels();
-        if (FindName("CrosshairsPanel") is FrameworkElement cp) cp.Visibility = Visibility.Visible;
-        AnimateNavSelect(BtnCrosshairs);
+        if (FindName("CrosshairsPanel") is StackPanel p)
+        {
+            p.Visibility = Visibility.Visible;
+            FadeInPanel(p);
+        }
+        if (s is Button b) AnimateNavSelect(b);
         _scrollTarget = 0;
         MainScrollViewer.ScrollToTop();
     }
@@ -655,8 +681,12 @@ public partial class MainWindow : Window
     private void BtnArraylist_Click(object s, RoutedEventArgs e)
     {
         HideAllPanels();
-        if (FindName("ArraylistPanel") is FrameworkElement ap) ap.Visibility = Visibility.Visible;
-        AnimateNavSelect(BtnArraylist);
+        if (FindName("ArraylistPanel") is StackPanel p)
+        {
+            p.Visibility = Visibility.Visible;
+            FadeInPanel(p);
+        }
+        if (s is Button b) AnimateNavSelect(b);
         _scrollTarget = 0;
         MainScrollViewer.ScrollToTop();
     }
@@ -685,44 +715,56 @@ public partial class MainWindow : Window
         _bindingBtn      = null;
     }
 
-    private void DeBindBtn_Click(object s, RoutedEventArgs e) => StartBinding(DeBindBtn, k => _s.DeBind = k);
-    private void SeBindBtn_Click(object s, RoutedEventArgs e) => StartBinding(SeBindBtn, k => _s.SeBind = k);
-
-    private void DbBindBtn_Click (object s, RoutedEventArgs e) => StartBinding(DbBindBtn,  k => _s.DbBind = k);
-
-    private void SpBindBtn_Click (object s, RoutedEventArgs e) => StartBinding(SpBindBtn,  k => _s.SpBind = k);
+    private void DeBindBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.DeBind = k); }
+    private void SeBindBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.SeBind = k); }
+    private void DbBindBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.DbBind = k); }
+    private void SpBindBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.SpBind = k); }
 
     private bool _spDropdownOpen = false;
 
     private void SpModeBtn_Click(object s, RoutedEventArgs e)
     {
-        _spDropdownOpen = !_spDropdownOpen;
-        double targetHeight = _spDropdownOpen ? 51 : 0;
-        var anim = new DoubleAnimation(targetHeight, new Duration(TimeSpan.FromMilliseconds(160)))
+        if (FindName("SpModeDropdown") is FrameworkElement dd)
         {
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
-        };
-        SpModeDropdown.BeginAnimation(FrameworkElement.HeightProperty, anim);
+            _spDropdownOpen = !_spDropdownOpen;
+            double targetHeight = _spDropdownOpen ? 51 : 0;
+            var anim = new DoubleAnimation(targetHeight, new Duration(TimeSpan.FromMilliseconds(160)))
+            {
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+            };
+            dd.BeginAnimation(FrameworkElement.HeightProperty, anim);
+        }
     }
 
     private void SetSpMode(string mode)
     {
         _s.SpMode = mode;
-        SpModeBtn.Content = mode;
-        SpModeToggleBtn.FontSize   = mode == "Toggle" ? 10 : 9;
-        SpModeToggleBtn.Foreground = mode == "Toggle"
-            ? new SolidColorBrush(Color.FromRgb(0xf5, 0xf5, 0xf5))
-            : new SolidColorBrush(Color.FromRgb(0x5a, 0x5a, 0x5a));
-        SpModeHoldBtn.FontSize   = mode == "Hold" ? 10 : 9;
-        SpModeHoldBtn.Foreground = mode == "Hold"
-            ? new SolidColorBrush(Color.FromRgb(0xf5, 0xf5, 0xf5))
-            : new SolidColorBrush(Color.FromRgb(0x5a, 0x5a, 0x5a));
-        _spDropdownOpen = false;
-        var anim = new DoubleAnimation(0, new Duration(TimeSpan.FromMilliseconds(140)))
+        if (FindName("SpModeBtn") is Button smb) smb.Content = mode;
+        
+        var active = new SolidColorBrush(Color.FromRgb(0xf5, 0xf5, 0xf5));
+        var dim    = new SolidColorBrush(Color.FromRgb(0x5a, 0x5a, 0x5a));
+
+        if (FindName("SpModeToggleBtn") is Button stb)
         {
-            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseIn }
-        };
-        SpModeDropdown.BeginAnimation(FrameworkElement.HeightProperty, anim);
+            stb.FontSize = mode == "Toggle" ? 10 : 9;
+            stb.Foreground = mode == "Toggle" ? active : dim;
+        }
+        if (FindName("SpModeHoldBtn") is Button shb)
+        {
+            shb.FontSize = mode == "Hold" ? 10 : 9;
+            shb.Foreground = mode == "Hold" ? active : dim;
+        }
+
+        _spDropdownOpen = false;
+        if (FindName("SpModeDropdown") is FrameworkElement dd)
+        {
+            var anim = new DoubleAnimation(0, new Duration(TimeSpan.FromMilliseconds(140)))
+            {
+                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseIn }
+            };
+            dd.BeginAnimation(FrameworkElement.HeightProperty, anim);
+        }
+
         if (!string.IsNullOrEmpty(_s.KbSprint))
             InputSim.KeyUp(_s.KbSprint);
         _s.SpKeyHeld = false;
@@ -731,7 +773,7 @@ public partial class MainWindow : Window
     private void SpModeToggleBtn_Click(object s, RoutedEventArgs e) => SetSpMode("Toggle");
     private void SpModeHoldBtn_Click  (object s, RoutedEventArgs e) => SetSpMode("Hold");
 
-    private void ProofKeyBtn_Click(object s, RoutedEventArgs e) => StartBinding(ProofKeyBtn, k => _s.ProofKey = k);
+    private void ProofKeyBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.ProofKey = k); }
 
     private void KbBuildingEditBtn_Click          (object s, RoutedEventArgs e) => StartBinding(KbBuildingEditBtn,           k => _s.KbBuildingEdit           = k);
     private void KbSelectBuildingEditBtn_Click    (object s, RoutedEventArgs e) => StartBinding(KbSelectBuildingEditBtn,     k => _s.KbSelectBuildingEdit     = k);
@@ -774,10 +816,10 @@ public partial class MainWindow : Window
 
     private void Sliders_Changed(object s, RoutedPropertyChangedEventArgs<double> e)
     {
-        if (s == DeDelaySlider) _s.DeDelayMs = (int)e.NewValue;
-        if (s == SeDelaySlider) _s.SeDelayMs = (int)e.NewValue;
-        if (s == DbDelaySlider) _s.DbDelayMs = (int)e.NewValue;
-        if (s == IbDelaySlider) _s.IbDelayMs = (int)e.NewValue;
+        if (FindName("DeDelaySlider") is Slider deS && s == deS) _s.DeDelayMs = (int)e.NewValue;
+        if (FindName("SeDelaySlider") is Slider seS && s == seS) _s.SeDelayMs = (int)e.NewValue;
+        if (FindName("DbDelaySlider") is Slider dbS && s == dbS) _s.DbDelayMs = (int)e.NewValue;
+        if (FindName("IbDelaySlider") is Slider ibS && s == ibS) _s.IbDelayMs = (int)e.NewValue;
         RefreshDelayLabels();
     }
 
