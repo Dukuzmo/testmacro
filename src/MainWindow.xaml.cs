@@ -360,22 +360,28 @@ public partial class MainWindow : Window
 
     private void InitCrosshairsPanel()
     {
-        CrTemplatePanel.Children.Clear();
-        foreach (var (id, name) in CrTemplates)
-            CrTemplatePanel.Children.Add(BuildTemplateTile(id, name));
+        if (FindName("CrTemplatePanel") is StackPanel tp)
+        {
+            tp.Children.Clear();
+            foreach (var (id, name) in CrTemplates)
+                tp.Children.Add(BuildTemplateTile(id, name));
+        }
 
-        CrColorPanel.Children.Clear();
-        foreach (var hex in CrColors)
-            CrColorPanel.Children.Add(BuildColorSwatch(hex));
+        if (FindName("CrColorPanel") is StackPanel cp)
+        {
+            cp.Children.Clear();
+            foreach (var hex in CrColors)
+                cp.Children.Add(BuildColorSwatch(hex));
+        }
 
         UpdateTemplateTileSelection();
         UpdateColorSwatchSelection();
 
-        CrOutlineToggle.IsChecked      = _s.CrOutline;
-        CrOutlineSizeSlider.Value      = _s.CrOutlineSize;
-        CrSizeSlider.Value             = _s.CrSize;
-        CrOutlineSizeLabel.Text        = _s.CrOutlineSize.ToString();
-        CrSizeLabel.Text               = $"{_s.CrSize}%";
+        if (FindName("CrOutlineToggle") is ToggleButton ot) ot.IsChecked = _s.CrOutline;
+        if (FindName("CrOutlineSizeSlider") is Slider os) os.Value = _s.CrOutlineSize;
+        if (FindName("CrSizeSlider") is Slider cs) cs.Value = _s.CrSize;
+        if (FindName("CrOutlineSizeLabel") is TextBlock ol) ol.Text = _s.CrOutlineSize.ToString();
+        if (FindName("CrSizeLabel") is TextBlock cl) cl.Text = $"{_s.CrSize}%";
     }
 
     private UIElement BuildTemplateTile(string id, string name)
@@ -459,38 +465,47 @@ public partial class MainWindow : Window
 
     private void UpdateTemplateTileSelection()
     {
-        foreach (UIElement el in CrTemplatePanel.Children)
+        if (FindName("CrTemplatePanel") is StackPanel tp)
         {
-            if (el is Border b)
+            foreach (UIElement el in tp.Children)
             {
-                b.BorderBrush = b.Tag as string == _s.CrTemplate
-                    ? new SolidColorBrush(Color.FromRgb(0xf5, 0xf5, 0xf5))
-                    : new SolidColorBrush(Color.FromRgb(0x1e, 0x1e, 0x1e));
+                if (el is Border b)
+                {
+                    b.BorderBrush = b.Tag as string == _s.CrTemplate
+                        ? new SolidColorBrush(Color.FromRgb(0xf5, 0xf5, 0xf5))
+                        : new SolidColorBrush(Color.FromRgb(0x1e, 0x1e, 0x1e));
+                }
             }
         }
     }
 
     private void UpdateColorSwatchSelection()
     {
-        foreach (UIElement el in CrColorPanel.Children)
+        if (FindName("CrColorPanel") is StackPanel cp)
         {
-            if (el is Border b)
+            foreach (UIElement el in cp.Children)
             {
-                b.BorderBrush = b.Tag as string == _s.CrColor
-                    ? new SolidColorBrush(Color.FromRgb(0xf5, 0xf5, 0xf5))
-                    : new SolidColorBrush(Colors.Transparent);
+                if (el is Border b)
+                {
+                    b.BorderBrush = b.Tag as string == _s.CrColor
+                        ? new SolidColorBrush(Color.FromRgb(0xf5, 0xf5, 0xf5))
+                        : new SolidColorBrush(Colors.Transparent);
+                }
             }
         }
     }
 
     private void RebuildTemplatePreviews()
     {
-        foreach (UIElement el in CrTemplatePanel.Children)
+        if (FindName("CrTemplatePanel") is StackPanel tp)
         {
-            if (el is Border b && b.Child is StackPanel sp && sp.Children.Count > 0 && sp.Children[0] is Canvas canvas)
+            foreach (UIElement el in tp.Children)
             {
-                string id = b.Tag as string ?? "";
-                CrDraw.Draw(canvas, 32, 32, 0.5, _s.CrColor, _s.CrOutline, _s.CrOutlineSize, id);
+                if (el is Border b && b.Child is StackPanel sp && sp.Children.Count > 0 && sp.Children[0] is Canvas canvas)
+                {
+                    string id = b.Tag as string ?? "";
+                    CrDraw.Draw(canvas, 32, 32, 0.5, _s.CrColor, _s.CrOutline, _s.CrOutlineSize, id);
+                }
             }
         }
     }
@@ -502,29 +517,29 @@ public partial class MainWindow : Window
 
     private void CrToggle_Changed(object s, RoutedEventArgs e)
     {
-        _s.CrOutline = CrOutlineToggle.IsChecked == true;
-        if (CrTemplatePanel != null) RebuildTemplatePreviews();
+        if (FindName("CrOutlineToggle") is ToggleButton ot) _s.CrOutline = ot.IsChecked == true;
+        RebuildTemplatePreviews();
         RefreshCrosshairOverlay();
     }
 
     private void CrOutlineSizeSlider_Changed(object s, RoutedPropertyChangedEventArgs<double> e)
     {
         _s.CrOutlineSize = (int)e.NewValue;
-        if (CrOutlineSizeLabel != null) CrOutlineSizeLabel.Text = _s.CrOutlineSize.ToString();
-        if (CrTemplatePanel   != null) RebuildTemplatePreviews();
+        if (FindName("CrOutlineSizeLabel") is TextBlock ol) ol.Text = _s.CrOutlineSize.ToString();
+        RebuildTemplatePreviews();
         RefreshCrosshairOverlay();
     }
 
     private void CrSizeSlider_Changed(object s, RoutedPropertyChangedEventArgs<double> e)
     {
         _s.CrSize = (int)e.NewValue;
-        if (CrSizeLabel != null) CrSizeLabel.Text = $"{_s.CrSize}%";
+        if (FindName("CrSizeLabel") is TextBlock cl) cl.Text = $"{_s.CrSize}%";
         RefreshCrosshairOverlay();
     }
 
     private void InitArraylistPanel()
     {
-        AlEnabledToggle.IsChecked = _s.AlEnabled;
+        if (FindName("AlEnabledToggle") is ToggleButton et) et.IsChecked = _s.AlEnabled;
         RefreshAlPositionButtons();
         RefreshArraylistOverlay();
     }
@@ -533,10 +548,10 @@ public partial class MainWindow : Window
     {
         var active = new SolidColorBrush(Color.FromRgb(0xf5, 0xf5, 0xf5));
         var dim    = new SolidColorBrush(Color.FromRgb(0x5a, 0x5a, 0x5a));
-        AlPosTopLeft.Foreground  = _s.AlPosition == "Top Left"     ? active : dim;
-        AlPosTopRight.Foreground = _s.AlPosition == "Top Right"    ? active : dim;
-        AlPosBotLeft.Foreground  = _s.AlPosition == "Bottom Left"  ? active : dim;
-        AlPosBotRight.Foreground = _s.AlPosition == "Bottom Right" ? active : dim;
+        if (FindName("AlPosTopLeft") is Button b1) b1.Foreground = _s.AlPosition == "Top Left" ? active : dim;
+        if (FindName("AlPosTopRight") is Button b2) b2.Foreground = _s.AlPosition == "Top Right" ? active : dim;
+        if (FindName("AlPosBotLeft") is Button b3) b3.Foreground = _s.AlPosition == "Bottom Left" ? active : dim;
+        if (FindName("AlPosBotRight") is Button b4) b4.Foreground = _s.AlPosition == "Bottom Right" ? active : dim;
     }
 
     private void SetAlPosition(string pos)
@@ -548,7 +563,7 @@ public partial class MainWindow : Window
 
     private void AlToggle_Changed(object s, RoutedEventArgs e)
     {
-        _s.AlEnabled = AlEnabledToggle.IsChecked == true;
+        if (FindName("AlEnabledToggle") is ToggleButton et) _s.AlEnabled = et.IsChecked == true;
         RefreshArraylistOverlay();
     }
 
@@ -775,32 +790,32 @@ public partial class MainWindow : Window
 
     private void ProofKeyBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.ProofKey = k); }
 
-    private void KbBuildingEditBtn_Click          (object s, RoutedEventArgs e) => StartBinding(KbBuildingEditBtn,           k => _s.KbBuildingEdit           = k);
-    private void KbSelectBuildingEditBtn_Click    (object s, RoutedEventArgs e) => StartBinding(KbSelectBuildingEditBtn,     k => _s.KbSelectBuildingEdit     = k);
-    private void KbWallBtn_Click                  (object s, RoutedEventArgs e) => StartBinding(KbWallBtn,                  k => _s.KbWall                   = k);
-    private void KbFloorBtn_Click                 (object s, RoutedEventArgs e) => StartBinding(KbFloorBtn,                 k => _s.KbFloor                  = k);
-    private void KbStairsBtn_Click                (object s, RoutedEventArgs e) => StartBinding(KbStairsBtn,                k => _s.KbStairs                 = k);
-    private void KbConeBtn_Click                  (object s, RoutedEventArgs e) => StartBinding(KbConeBtn,                  k => _s.KbCone                   = k);
-    private void KbSecondaryPlaceBuildingBtn_Click(object s, RoutedEventArgs e) => StartBinding(KbSecondaryPlaceBuildingBtn, k => _s.KbSecondaryPlaceBuilding = k);
-    private void KbPickaxeBtn_Click               (object s, RoutedEventArgs e) => StartBinding(KbPickaxeBtn,               k => _s.KbPickaxe                = k);
-    private void KbShotgunBtn_Click               (object s, RoutedEventArgs e) => StartBinding(KbShotgunBtn,               k => _s.KbShotgun                = k);
-    private void KbSlot1Btn_Click                 (object s, RoutedEventArgs e) => StartBinding(KbSlot1Btn,                 k => _s.KbSlot1                  = k);
-    private void KbSlot2Btn_Click                 (object s, RoutedEventArgs e) => StartBinding(KbSlot2Btn,                 k => _s.KbSlot2                  = k);
-    private void KbSlot3Btn_Click                 (object s, RoutedEventArgs e) => StartBinding(KbSlot3Btn,                 k => _s.KbSlot3                  = k);
-    private void KbSlot4Btn_Click                 (object s, RoutedEventArgs e) => StartBinding(KbSlot4Btn,                 k => _s.KbSlot4                  = k);
-    private void KbSlot5Btn_Click                 (object s, RoutedEventArgs e) => StartBinding(KbSlot5Btn,                 k => _s.KbSlot5                  = k);
-    private void KbSprintBtn_Click                (object s, RoutedEventArgs e) => StartBinding(KbSprintBtn,                k => _s.KbSprint                 = k);
-    private void KbWalkForwardBtn_Click           (object s, RoutedEventArgs e) => StartBinding(KbWalkForwardBtn,           k => _s.KbWalkForward            = k);
-    private void KbInteractBtn_Click              (object s, RoutedEventArgs e) => StartBinding(KbInteractBtn,              k => _s.KbInteract               = k);
-    private void KbSecondaryShootBtn_Click        (object s, RoutedEventArgs e) => StartBinding(KbSecondaryShootBtn,        k => _s.KbSecondaryShoot         = k);
-    private void KbSecondaryWallBtn_Click         (object s, RoutedEventArgs e) => StartBinding(KbSecondaryWallBtn,         k => _s.KbSecondaryWall          = k);
+    private void KbBuildingEditBtn_Click          (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbBuildingEdit           = k); }
+    private void KbSelectBuildingEditBtn_Click    (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSelectBuildingEdit     = k); }
+    private void KbWallBtn_Click                  (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbWall                   = k); }
+    private void KbFloorBtn_Click                 (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbFloor                  = k); }
+    private void KbStairsBtn_Click                (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbStairs                 = k); }
+    private void KbConeBtn_Click                  (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbCone                   = k); }
+    private void KbSecondaryPlaceBuildingBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSecondaryPlaceBuilding = k); }
+    private void KbPickaxeBtn_Click               (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbPickaxe                = k); }
+    private void KbShotgunBtn_Click               (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbShotgun                = k); }
+    private void KbSlot1Btn_Click                 (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSlot1                  = k); }
+    private void KbSlot2Btn_Click                 (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSlot2                  = k); }
+    private void KbSlot3Btn_Click                 (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSlot3                  = k); }
+    private void KbSlot4Btn_Click                 (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSlot4                  = k); }
+    private void KbSlot5Btn_Click                 (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSlot5                  = k); }
+    private void KbSprintBtn_Click                (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSprint                 = k); }
+    private void KbWalkForwardBtn_Click           (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbWalkForward            = k); }
+    private void KbInteractBtn_Click              (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbInteract               = k); }
+    private void KbSecondaryShootBtn_Click        (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSecondaryShoot         = k); }
+    private void KbSecondaryWallBtn_Click         (object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSecondaryWall          = k); }
 
     private void Toggles_Changed(object s, RoutedEventArgs e)
     {
-        _s.DeEnabled = DeToggle.IsChecked == true;
-        _s.SeEnabled = SeToggle.IsChecked == true;
-        _s.DbEnabled = DbToggle.IsChecked == true;
-        _s.IbEnabled = IbToggle.IsChecked == true;
+        if (FindName("DeToggle") is ToggleButton deT) _s.DeEnabled = deT.IsChecked == true;
+        if (FindName("SeToggle") is ToggleButton seT) _s.SeEnabled = seT.IsChecked == true;
+        if (FindName("DbToggle") is ToggleButton dbT) _s.DbEnabled = dbT.IsChecked == true;
+        if (FindName("IbToggle") is ToggleButton ibT) _s.IbEnabled = ibT.IsChecked == true;
         
         if (FindName("PulloutPickaxeBox") is CheckBox pB) _s.PulloutPickaxe = pB.IsChecked == true;
         if (FindName("PulloutShotgunBox") is CheckBox sB) _s.PulloutShotgun = sB.IsChecked == true;
@@ -917,9 +932,9 @@ public partial class MainWindow : Window
             InitButtons();
             InitKeybindButtons();
             RefreshDelayLabels();
-            if (CrTemplatePanel != null) InitCrosshairsPanel();
+            if (FindName("CrTemplatePanel") != null) InitCrosshairsPanel();
             RefreshCrosshairOverlay();
-            if (AlEnabledToggle != null) InitArraylistPanel();
+            if (FindName("AlEnabledToggle") != null) InitArraylistPanel();
         }
         catch { }
     }
@@ -1079,14 +1094,44 @@ public partial class MainWindow : Window
         if (_s.PulloutPickaxe && !string.IsNullOrEmpty(_s.KbPickaxe))
         {
             InputSim.KeyDown(_s.KbPickaxe);
-            PreciseSleep(KeyHoldMs + 10); 
+            PreciseSleep(KeyHoldMs + 15); 
             InputSim.KeyUp(_s.KbPickaxe);
         }
         else if (_s.PulloutShotgun && !string.IsNullOrEmpty(_s.KbShotgun))
         {
             InputSim.KeyDown(_s.KbShotgun);
-            PreciseSleep(KeyHoldMs + 10); 
+            PreciseSleep(KeyHoldMs + 15); 
             InputSim.KeyUp(_s.KbShotgun);
+        }
+        else if (_s.PulloutSlot1 && !string.IsNullOrEmpty(_s.KbSlot1))
+        {
+            InputSim.KeyDown(_s.KbSlot1);
+            PreciseSleep(KeyHoldMs + 15); 
+            InputSim.KeyUp(_s.KbSlot1);
+        }
+        else if (_s.PulloutSlot2 && !string.IsNullOrEmpty(_s.KbSlot2))
+        {
+            InputSim.KeyDown(_s.KbSlot2);
+            PreciseSleep(KeyHoldMs + 15); 
+            InputSim.KeyUp(_s.KbSlot2);
+        }
+        else if (_s.PulloutSlot3 && !string.IsNullOrEmpty(_s.KbSlot3))
+        {
+            InputSim.KeyDown(_s.KbSlot3);
+            PreciseSleep(KeyHoldMs + 15); 
+            InputSim.KeyUp(_s.KbSlot3);
+        }
+        else if (_s.PulloutSlot4 && !string.IsNullOrEmpty(_s.KbSlot4))
+        {
+            InputSim.KeyDown(_s.KbSlot4);
+            PreciseSleep(KeyHoldMs + 15); 
+            InputSim.KeyUp(_s.KbSlot4);
+        }
+        else if (_s.PulloutSlot5 && !string.IsNullOrEmpty(_s.KbSlot5))
+        {
+            InputSim.KeyDown(_s.KbSlot5);
+            PreciseSleep(KeyHoldMs + 15); 
+            InputSim.KeyUp(_s.KbSlot5);
         }
     }
 

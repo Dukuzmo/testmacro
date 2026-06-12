@@ -223,8 +223,70 @@
                                                 <TextBlock Text="Select Edit" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
                                                 <Button x:Name="KbSelectBuildingEditBtn" Style="{StaticResource DarkBtn}" Click="KbSelectBuildingEditBtn_Click"/>
                                             </StackPanel>
-                                            <!-- Add more as needed -->
+                                            <StackPanel Margin="0,0,10,10">
+                                                <TextBlock Text="Pickaxe" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbPickaxeBtn" Style="{StaticResource DarkBtn}" Click="KbPickaxeBtn_Click"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="10,0,0,10">
+                                                <TextBlock Text="Shotgun" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbShotgunBtn" Style="{StaticResource DarkBtn}" Click="KbShotgunBtn_Click"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="0,0,10,10">
+                                                <TextBlock Text="Slot 1" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbSlot1Btn" Style="{StaticResource DarkBtn}" Click="KbSlot1Btn_Click"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="10,0,0,10">
+                                                <TextBlock Text="Slot 2" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbSlot2Btn" Style="{StaticResource DarkBtn}" Click="KbSlot2Btn_Click"/>
+                                            </StackPanel>
                                         </UniformGrid>
+                                    </Border>
+                                </StackPanel>
+
+                                <!-- CROSSHAIRS PANEL -->
+                                <StackPanel x:Name="CrosshairsPanel" Visibility="Collapsed">
+                                    <TextBlock Text="Crosshair Settings" FontFamily="{StaticResource IBMPlexMono}" FontSize="14" Foreground="#f5f5f5" Margin="0,0,0,20"/>
+                                    <Border Background="#111111" CornerRadius="8" Padding="25" BorderBrush="#222222" BorderThickness="1">
+                                        <StackPanel>
+                                            <TextBlock Text="Templates" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,10"/>
+                                            <StackPanel x:Name="CrTemplatePanel" Orientation="Horizontal" Margin="0,0,0,20"/>
+                                            <TextBlock Text="Colors" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,10"/>
+                                            <StackPanel x:Name="CrColorPanel" Orientation="Horizontal" Margin="0,0,0,20"/>
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                                                <TextBlock Text="Outline" FontSize="12" Foreground="#f5f5f5" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                                                <ToggleButton x:Name="CrOutlineToggle" Style="{StaticResource ToggleSwitch}" Checked="CrToggle_Changed" Unchecked="CrToggle_Changed"/>
+                                            </StackPanel>
+                                            <TextBlock Text="Outline Size" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Slider x:Name="CrOutlineSizeSlider" Style="{StaticResource DarkSlider}" Width="200" Minimum="1" Maximum="10" ValueChanged="CrOutlineSizeSlider_Changed"/>
+                                                <TextBlock x:Name="CrOutlineSizeLabel" Text="1" Foreground="#f5f5f5" Margin="15,0,0,0" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                            <TextBlock Text="Crosshair Size" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,15,0,5"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Slider x:Name="CrSizeSlider" Style="{StaticResource DarkSlider}" Width="200" Minimum="10" Maximum="200" ValueChanged="CrSizeSlider_Changed"/>
+                                                <TextBlock x:Name="CrSizeLabel" Text="100%" Foreground="#f5f5f5" Margin="15,0,0,0" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+
+                                <!-- ARRAYLIST PANEL -->
+                                <StackPanel x:Name="ArraylistPanel" Visibility="Collapsed">
+                                    <TextBlock Text="ArrayList Settings" FontFamily="{StaticResource IBMPlexMono}" FontSize="14" Foreground="#f5f5f5" Margin="0,0,0,20"/>
+                                    <Border Background="#111111" CornerRadius="8" Padding="25" BorderBrush="#222222" BorderThickness="1">
+                                        <StackPanel>
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                                                <TextBlock Text="Enabled" FontSize="12" Foreground="#f5f5f5" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                                                <ToggleButton x:Name="AlEnabledToggle" Style="{StaticResource ToggleSwitch}" Checked="AlToggle_Changed" Unchecked="AlToggle_Changed"/>
+                                            </StackPanel>
+                                            <TextBlock Text="Position" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,10"/>
+                                            <UniformGrid Columns="2">
+                                                <Button x:Name="AlPosTopLeft" Content="Top Left" Style="{StaticResource DarkBtn}" Click="AlPosTopLeft_Click" Margin="0,0,5,5"/>
+                                                <Button x:Name="AlPosTopRight" Content="Top Right" Style="{StaticResource DarkBtn}" Click="AlPosTopRight_Click" Margin="5,0,0,5"/>
+                                                <Button x:Name="AlPosBotLeft" Content="Bottom Left" Style="{StaticResource DarkBtn}" Click="AlPosBotLeft_Click" Margin="0,5,5,0"/>
+                                                <Button x:Name="AlPosBotRight" Content="Bottom Right" Style="{StaticResource DarkBtn}" Click="AlPosBotRight_Click" Margin="5,5,0,0"/>
+                                            </UniformGrid>
+                                        </StackPanel>
                                     </Border>
                                 </StackPanel>
                             </Grid>
