@@ -1225,27 +1225,7 @@ public partial class MainWindow : Window
         HandlePullout();
     }
 
-    private void AlPosBotLeft_Click(object s, RoutedEventArgs e) => SetAlPosition("Bottom Left");
-    private void AlPosTopLeft_Click(object s, RoutedEventArgs e) => SetAlPosition("Top Left");
-    private void KbBuildingEditBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbBuildingEdit = k); }
-    private void KbConeBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbCone = k); }
-    private void KbFloorBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbFloor = k); }
-    private void KbInteractBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbInteract = k); }
-    private void KbPickaxeBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbPickaxe = k); }
-    private void KbSecondaryShootBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSecondaryShoot = k); }
-    private void KbSecondaryWallBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSecondaryWall = k); }
-    private void KbSelectBuildingEditBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSelectBuildingEdit = k); }
-    private void KbShotgunBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbShotgun = k); }
-    private void KbSlot1Btn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSlot1 = k); }
-    private void KbSlot2Btn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSlot2 = k); }
-    private void KbSlot3Btn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSlot3 = k); }
-    private void KbSlot4Btn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSlot4 = k); }
-    private void KbSlot5Btn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSlot5 = k); }
-    private void KbSprintBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSprint = k); }
-    private void KbStairsBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbStairs = k); }
-    private void KbWalkForwardBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbWalkForward = k); }
-    private void KbWallBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbWall = k); }
-    private void SpModeHoldBtn_Click(object s, RoutedEventArgs e) => SetSpMode("Hold");
+
 
 }
 
