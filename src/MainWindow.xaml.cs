@@ -899,6 +899,15 @@ public partial class MainWindow : Window
             if (r.TryGetProperty("db_delay_ms",     out jv)     && jv.TryGetInt32(out i))     _s.DbDelayMs     = i;
             if (r.TryGetProperty("ib_delay_ms",     out jv)     && jv.TryGetInt32(out i))     _s.IbDelayMs     = i;
             if (r.TryGetProperty("sp_delay_ms",     out jv)     && jv.TryGetInt32(out i))     _s.SpDelayMs     = i;
+
+            if (r.TryGetProperty("pullout_pickaxe", out jv)) _s.PulloutPickaxe = jv.GetBoolean();
+            if (r.TryGetProperty("pullout_shotgun", out jv)) _s.PulloutShotgun = jv.GetBoolean();
+            if (r.TryGetProperty("pullout_slot1",   out jv)) _s.PulloutSlot1   = jv.GetBoolean();
+            if (r.TryGetProperty("pullout_slot2",   out jv)) _s.PulloutSlot2   = jv.GetBoolean();
+            if (r.TryGetProperty("pullout_slot3",   out jv)) _s.PulloutSlot3   = jv.GetBoolean();
+            if (r.TryGetProperty("pullout_slot4",   out jv)) _s.PulloutSlot4   = jv.GetBoolean();
+            if (r.TryGetProperty("pullout_slot5",   out jv)) _s.PulloutSlot5   = jv.GetBoolean();
+
             if (r.TryGetProperty("cr_outline_size", out jv)     && jv.TryGetInt32(out i))     _s.CrOutlineSize = i;
             if (r.TryGetProperty("cr_size",         out jv)     && jv.TryGetInt32(out i))     _s.CrSize        = i;
             if (r.TryGetProperty("cr_outline",      out jv) && jv.ValueKind == JsonValueKind.True  ) _s.CrOutline = true;
@@ -934,7 +943,7 @@ public partial class MainWindow : Window
         if (WindowGuard.IsGameActive())
         {
             // Pullout trigger for manual edit
-            if ((_s.PulloutPickaxe || _s.PulloutShotgun) && key == _s.KbBuildingEdit)
+            if ((_s.PulloutPickaxe || _s.PulloutShotgun || _s.PulloutSlot1 || _s.PulloutSlot2 || _s.PulloutSlot3 || _s.PulloutSlot4 || _s.PulloutSlot5) && key == _s.KbBuildingEdit)
             {
                 // We use a flag to prevent multiple triggers during one edit
                 if (!_isManualEditPulloutRunning)

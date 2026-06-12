@@ -707,13 +707,20 @@
                                             </Border>
 
                                             <Grid Margin="18,14,18,14">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="14"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
                                                 <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="12"/>
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="12"/>
                                                     <ColumnDefinition Width="*"/>
                                                 </Grid.ColumnDefinitions>
 
-                                                <StackPanel Grid.Column="0">
+                                                <StackPanel Grid.Row="0" Grid.Column="0">
                                                     <TextBlock Text="PULLOUT PICKAXE"
                                                                FontFamily="{StaticResource IBMPlexMono}"
                                                                FontSize="9" Foreground="#5a5a5a"/>
@@ -725,7 +732,7 @@
                                                                   Unchecked="Toggles_Changed"/>
                                                 </StackPanel>
 
-                                                <StackPanel Grid.Column="2">
+                                                <StackPanel Grid.Row="0" Grid.Column="2">
                                                     <TextBlock Text="PULLOUT SHOTGUN"
                                                                FontFamily="{StaticResource IBMPlexMono}"
                                                                FontSize="9" Foreground="#5a5a5a"/>
@@ -735,6 +742,59 @@
                                                                   Margin="0,8,0,0"
                                                                   Checked="Toggles_Changed"
                                                                   Unchecked="Toggles_Changed"/>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Row="0" Grid.Column="4">
+                                                    <TextBlock Text="SLOT 1"
+                                                               FontFamily="{StaticResource IBMPlexMono}"
+                                                               FontSize="9" Foreground="#5a5a5a"/>
+                                                    <ToggleButton x:Name="PulloutSlot1Toggle"
+                                                                  Style="{StaticResource ToggleSwitch}"
+                                                                  HorizontalAlignment="Left"
+                                                                  Margin="0,8,0,0"
+                                                                  Checked="Toggles_Changed"
+                                                                  Unchecked="Toggles_Changed"/>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Row="2" Grid.Column="0">
+                                                    <TextBlock Text="SLOT 2"
+                                                               FontFamily="{StaticResource IBMPlexMono}"
+                                                               FontSize="9" Foreground="#5a5a5a"/>
+                                                    <ToggleButton x:Name="PulloutSlot2Toggle"
+                                                                  Style="{StaticResource ToggleSwitch}"
+                                                                  HorizontalAlignment="Left"
+                                                                  Margin="0,8,0,0"
+                                                                  Checked="Toggles_Changed"
+                                                                  Unchecked="Toggles_Changed"/>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Row="2" Grid.Column="2">
+                                                    <TextBlock Text="SLOT 3"
+                                                               FontFamily="{StaticResource IBMPlexMono}"
+                                                               FontSize="9" Foreground="#5a5a5a"/>
+                                                    <ToggleButton x:Name="PulloutSlot3Toggle"
+                                                                  Style="{StaticResource ToggleSwitch}"
+                                                                  HorizontalAlignment="Left"
+                                                                  Margin="0,8,0,0"
+                                                                  Checked="Toggles_Changed"
+                                                                  Unchecked="Toggles_Changed"/>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Row="2" Grid.Column="4">
+                                                    <TextBlock Text="SLOT 4/5"
+                                                               FontFamily="{StaticResource IBMPlexMono}"
+                                                               FontSize="9" Foreground="#5a5a5a"/>
+                                                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                                        <ToggleButton x:Name="PulloutSlot4Toggle"
+                                                                      Style="{StaticResource ToggleSwitch}"
+                                                                      Checked="Toggles_Changed"
+                                                                      Unchecked="Toggles_Changed"/>
+                                                        <ToggleButton x:Name="PulloutSlot5Toggle"
+                                                                      Style="{StaticResource ToggleSwitch}"
+                                                                      Margin="8,0,0,0"
+                                                                      Checked="Toggles_Changed"
+                                                                      Unchecked="Toggles_Changed"/>
+                                                    </StackPanel>
                                                 </StackPanel>
                                             </Grid>
                                         </StackPanel>
@@ -1017,7 +1077,7 @@
                                                         Click="KbPickaxeBtn_Click"/>
                                             </Grid>
 
-                                            <Grid>
+                                            <Grid Margin="0,0,0,10">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="120"/>
@@ -1036,6 +1096,111 @@
                                                         Style="{StaticResource DarkBtn}"
                                                         HorizontalAlignment="Stretch"
                                                         Click="KbShotgunBtn_Click"/>
+                                            </Grid>
+
+                                            <Grid Margin="0,0,0,10">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="120"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel VerticalAlignment="Center">
+                                                    <TextBlock Text="Slot 1"
+                                                               FontFamily="{StaticResource IBMPlexMono}"
+                                                               FontSize="11" Foreground="#f5f5f5"/>
+                                                    <TextBlock Text="Weapon slot 1 bind"
+                                                               FontFamily="{StaticResource IBMPlexMono}"
+                                                               FontSize="9" Foreground="#5a5a5a"
+                                                               Margin="0,2,0,0"/>
+                                                </StackPanel>
+                                                <Button x:Name="KbSlot1Btn"
+                                                        Grid.Column="1"
+                                                        Style="{StaticResource DarkBtn}"
+                                                        HorizontalAlignment="Stretch"
+                                                        Click="KbSlot1Btn_Click"/>
+                                            </Grid>
+
+                                            <Grid Margin="0,0,0,10">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="120"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel VerticalAlignment="Center">
+                                                    <TextBlock Text="Slot 2"
+                                                               FontFamily="{StaticResource IBMPlexMono}"
+                                                               FontSize="11" Foreground="#f5f5f5"/>
+                                                    <TextBlock Text="Weapon slot 2 bind"
+                                                               FontFamily="{StaticResource IBMPlexMono}"
+                                                               FontSize="9" Foreground="#5a5a5a"
+                                                               Margin="0,2,0,0"/>
+                                                </StackPanel>
+                                                <Button x:Name="KbSlot2Btn"
+                                                        Grid.Column="1"
+                                                        Style="{StaticResource DarkBtn}"
+                                                        HorizontalAlignment="Stretch"
+                                                        Click="KbSlot2Btn_Click"/>
+                                            </Grid>
+
+                                            <Grid Margin="0,0,0,10">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="120"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel VerticalAlignment="Center">
+                                                    <TextBlock Text="Slot 3"
+                                                               FontFamily="{StaticResource IBMPlexMono}"
+                                                               FontSize="11" Foreground="#f5f5f5"/>
+                                                    <TextBlock Text="Weapon slot 3 bind"
+                                                               FontFamily="{StaticResource IBMPlexMono}"
+                                                               FontSize="9" Foreground="#5a5a5a"
+                                                               Margin="0,2,0,0"/>
+                                                </StackPanel>
+                                                <Button x:Name="KbSlot3Btn"
+                                                        Grid.Column="1"
+                                                        Style="{StaticResource DarkBtn}"
+                                                        HorizontalAlignment="Stretch"
+                                                        Click="KbSlot3Btn_Click"/>
+                                            </Grid>
+
+                                            <Grid Margin="0,0,0,10">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="120"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel VerticalAlignment="Center">
+                                                    <TextBlock Text="Slot 4"
+                                                               FontFamily="{StaticResource IBMPlexMono}"
+                                                               FontSize="11" Foreground="#f5f5f5"/>
+                                                    <TextBlock Text="Weapon slot 4 bind"
+                                                               FontFamily="{StaticResource IBMPlexMono}"
+                                                               FontSize="9" Foreground="#5a5a5a"
+                                                               Margin="0,2,0,0"/>
+                                                </StackPanel>
+                                                <Button x:Name="KbSlot4Btn"
+                                                        Grid.Column="1"
+                                                        Style="{StaticResource DarkBtn}"
+                                                        HorizontalAlignment="Stretch"
+                                                        Click="KbSlot4Btn_Click"/>
+                                            </Grid>
+
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="120"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel VerticalAlignment="Center">
+                                                    <TextBlock Text="Slot 5"
+                                                               FontFamily="{StaticResource IBMPlexMono}"
+                                                               FontSize="11" Foreground="#f5f5f5"/>
+                                                    <TextBlock Text="Weapon slot 5 bind"
+                                                               FontFamily="{StaticResource IBMPlexMono}"
+                                                               FontSize="9" Foreground="#5a5a5a"
+                                                               Margin="0,2,0,0"/>
+                                                </StackPanel>
+                                                <Button x:Name="KbSlot5Btn"
+                                                        Grid.Column="1"
+                                                        Style="{StaticResource DarkBtn}"
+                                                        HorizontalAlignment="Stretch"
+                                                        Click="KbSlot5Btn_Click"/>
                                             </Grid>
                                         </StackPanel>
                                     </Border>

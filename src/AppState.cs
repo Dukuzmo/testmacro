@@ -18,6 +18,11 @@ public class AppState
 
     public bool PulloutPickaxe { get; set; } = false;
     public bool PulloutShotgun { get; set; } = false;
+    public bool PulloutSlot1   { get; set; } = false;
+    public bool PulloutSlot2   { get; set; } = false;
+    public bool PulloutSlot3   { get; set; } = false;
+    public bool PulloutSlot4   { get; set; } = false;
+    public bool PulloutSlot5   { get; set; } = false;
 
     public string SeBind { get; set; } = "";
     public string DbBind { get; set; } = "";
@@ -33,6 +38,11 @@ public class AppState
     public string KbSecondaryPlaceBuilding { get; set; } = "";
     public string KbPickaxe                { get; set; } = "";
     public string KbShotgun                { get; set; } = "";
+    public string KbSlot1                  { get; set; } = "";
+    public string KbSlot2                  { get; set; } = "";
+    public string KbSlot3                  { get; set; } = "";
+    public string KbSlot4                  { get; set; } = "";
+    public string KbSlot5                  { get; set; } = "";
     public string KbSprint                 { get; set; } = "";
     public string KbWalkForward            { get; set; } = "";
     public string KbInteract               { get; set; } = "";
