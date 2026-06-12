@@ -1225,19 +1225,6 @@ public partial class MainWindow : Window
         HandlePullout();
     }
 
-}
-
-internal static class JsonExt
-{
-    public static bool TryGetProp(this JsonElement el, string name, out string value)
-    {
-        if (el.TryGetProperty(name, out var prop) && prop.GetString() is { } s)
-        { value = s; return true; }
-        value = "";
-        return false;
-    }
-}
-
     private void AlPosBotLeft_Click(object s, RoutedEventArgs e) => SetAlPosition("Bottom Left");
     private void AlPosTopLeft_Click(object s, RoutedEventArgs e) => SetAlPosition("Top Left");
     private void KbBuildingEditBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbBuildingEdit = k); }
@@ -1259,3 +1246,16 @@ internal static class JsonExt
     private void KbWalkForwardBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbWalkForward = k); }
     private void KbWallBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbWall = k); }
     private void SpModeHoldBtn_Click(object s, RoutedEventArgs e) => SetSpMode("Hold");
+
+}
+
+internal static class JsonExt
+{
+    public static bool TryGetProp(this JsonElement el, string name, out string value)
+    {
+        if (el.TryGetProperty(name, out var prop) && prop.GetString() is { } s)
+        { value = s; return true; }
+        value = "";
+        return false;
+    }
+}
