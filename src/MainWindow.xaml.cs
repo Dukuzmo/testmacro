@@ -285,70 +285,75 @@ public partial class MainWindow : Window
 
     private void InitButtons()
     {
-        if (FindName("DeBindBtn") is Button deB) deB.Content = DisplayKey(_s.DeBind);
-        if (FindName("SeBindBtn") is Button seB) seB.Content = DisplayKey(_s.SeBind);
-        if (FindName("DbBindBtn") is Button dbB) dbB.Content = DisplayKey(_s.DbBind);
+        DeBindBtn.Content = DisplayKey(_s.DeBind);
+        SeBindBtn.Content = DisplayKey(_s.SeBind);
+        DbBindBtn.Content = DisplayKey(_s.DbBind);
+        IbBindBtn.Content = DisplayKey(_s.IbBind);
+        SpBindBtn.Content = DisplayKey(_s.SpBind);
 
-        if (FindName("DeToggle") is ToggleButton deT) deT.IsChecked = _s.DeEnabled;
-        if (FindName("SeToggle") is ToggleButton seT) seT.IsChecked = _s.SeEnabled;
-        if (FindName("DbToggle") is ToggleButton dbT) dbT.IsChecked = _s.DbEnabled;
-        if (FindName("IbToggle") is ToggleButton ibT) ibT.IsChecked = _s.IbEnabled;
+        DeToggle.IsChecked = _s.DeEnabled;
+        SeToggle.IsChecked = _s.SeEnabled;
+        DbToggle.IsChecked = _s.DbEnabled;
+        IbToggle.IsChecked = _s.IbEnabled;
+        SpToggle.IsChecked = _s.SpEnabled;
         
-        if (FindName("PulloutPickaxeBox") is CheckBox pB) pB.IsChecked = _s.PulloutPickaxe;
-        if (FindName("PulloutShotgunBox") is CheckBox sB) sB.IsChecked = _s.PulloutShotgun;
-        if (FindName("PulloutSlot1Box") is CheckBox s1B) s1B.IsChecked = _s.PulloutSlot1;
-        if (FindName("PulloutSlot2Box") is CheckBox s2B) s2B.IsChecked = _s.PulloutSlot2;
-        if (FindName("PulloutSlot3Box") is CheckBox s3B) s3B.IsChecked = _s.PulloutSlot3;
-        if (FindName("PulloutSlot4Box") is CheckBox s4B) s4B.IsChecked = _s.PulloutSlot4;
-        if (FindName("PulloutSlot5Box") is CheckBox s5B) s5B.IsChecked = _s.PulloutSlot5;
+        PulloutPickaxeBox.IsChecked = _s.PulloutPickaxe;
+        PulloutShotgunBox.IsChecked = _s.PulloutShotgun;
+        PulloutSlot1Box.IsChecked = _s.PulloutSlot1;
+        PulloutSlot2Box.IsChecked = _s.PulloutSlot2;
+        PulloutSlot3Box.IsChecked = _s.PulloutSlot3;
+        PulloutSlot4Box.IsChecked = _s.PulloutSlot4;
+        PulloutSlot5Box.IsChecked = _s.PulloutSlot5;
 
-        if (FindName("DeDelaySlider") is Slider deS) deS.Value = _s.DeDelayMs;
-        if (FindName("SeDelaySlider") is Slider seS) seS.Value = _s.SeDelayMs;
-        if (FindName("DbDelaySlider") is Slider dbS) dbS.Value = _s.DbDelayMs;
-        if (FindName("IbDelaySlider") is Slider ibS) ibS.Value = _s.IbDelayMs;
+        DeDelaySlider.Value = _s.DeDelayMs;
+        SeDelaySlider.Value = _s.SeDelayMs;
+        DbDelaySlider.Value = _s.DbDelayMs;
+        IbDelaySlider.Value = _s.IbDelayMs;
+        SpDelaySlider.Value = _s.SpDelayMs;
     }
 
     private void InitKeybindButtons()
     {
-        if (FindName("KbBuildingEditBtn") is Button b1) b1.Content = DisplayKey(_s.KbBuildingEdit);
-        if (FindName("KbSelectBuildingEditBtn") is Button b2) b2.Content = DisplayKey(_s.KbSelectBuildingEdit);
-        if (FindName("KbWallBtn") is Button b3) b3.Content = DisplayKey(_s.KbWall);
-        if (FindName("KbFloorBtn") is Button b4) b4.Content = DisplayKey(_s.KbFloor);
-        if (FindName("KbStairsBtn") is Button b5) b5.Content = DisplayKey(_s.KbStairs);
-        if (FindName("KbConeBtn") is Button b6) b6.Content = DisplayKey(_s.KbCone);
-        if (FindName("KbSecondaryPlaceBuildingBtn") is Button b7) b7.Content = DisplayKey(_s.KbSecondaryPlaceBuilding);
-        if (FindName("KbPickaxeBtn") is Button b8) b8.Content = DisplayKey(_s.KbPickaxe);
-        if (FindName("KbShotgunBtn") is Button b9) b9.Content = DisplayKey(_s.KbShotgun);
-        if (FindName("KbSprintBtn") is Button b10) b10.Content = DisplayKey(_s.KbSprint);
-        if (FindName("KbWalkForwardBtn") is Button b11) b11.Content = DisplayKey(_s.KbWalkForward);
-        if (FindName("KbInteractBtn") is Button b12) b12.Content = DisplayKey(_s.KbInteract);
-        if (FindName("KbSecondaryShootBtn") is Button b13) b13.Content = DisplayKey(_s.KbSecondaryShoot);
-        if (FindName("KbSecondaryWallBtn") is Button b14) b14.Content = DisplayKey(_s.KbSecondaryWall);
+        KbBuildingEditBtn.Content = DisplayKey(_s.KbBuildingEdit);
+        KbSelectBuildingEditBtn.Content = DisplayKey(_s.KbSelectBuildingEdit);
+        KbWallBtn.Content = DisplayKey(_s.KbWall);
+        KbFloorBtn.Content = DisplayKey(_s.KbFloor);
+        KbStairsBtn.Content = DisplayKey(_s.KbStairs);
+        KbConeBtn.Content = DisplayKey(_s.KbCone);
+        KbSecondaryPlaceBuildingBtn.Content = DisplayKey(_s.KbSecondaryPlaceBuilding);
+        KbPickaxeBtn.Content = DisplayKey(_s.KbPickaxe);
+        KbShotgunBtn.Content = DisplayKey(_s.KbShotgun);
+        KbSprintBtn.Content = DisplayKey(_s.KbSprint);
+        KbWalkForwardBtn.Content = DisplayKey(_s.KbWalkForward);
+        KbInteractBtn.Content = DisplayKey(_s.KbInteract);
+        KbSecondaryShootBtn.Content = DisplayKey(_s.KbSecondaryShoot);
+        KbSecondaryWallBtn.Content = DisplayKey(_s.KbSecondaryWall);
         
-        if (FindName("KbSlot1Btn") is Button s1) s1.Content = DisplayKey(_s.KbSlot1);
-        if (FindName("KbSlot2Btn") is Button s2) s2.Content = DisplayKey(_s.KbSlot2);
-        if (FindName("KbSlot3Btn") is Button s3) s3.Content = DisplayKey(_s.KbSlot3);
-        if (FindName("KbSlot4Btn") is Button s4) s4.Content = DisplayKey(_s.KbSlot4);
-        if (FindName("KbSlot5Btn") is Button s5) s5.Content = DisplayKey(_s.KbSlot5);
+        KbSlot1Btn.Content = DisplayKey(_s.KbSlot1);
+        KbSlot2Btn.Content = DisplayKey(_s.KbSlot2);
+        KbSlot3Btn.Content = DisplayKey(_s.KbSlot3);
+        KbSlot4Btn.Content = DisplayKey(_s.KbSlot4);
+        KbSlot5Btn.Content = DisplayKey(_s.KbSlot5);
     }
 
     private void RefreshDelayLabels()
     {
-        if (FindName("DeDelayText") is TextBlock deT) deT.Text = $"{_s.DeDelayMs} ms";
-        if (FindName("SeDelayText") is TextBlock seT) seT.Text = $"{_s.SeDelayMs} ms";
-        if (FindName("DbDelayText") is TextBlock dbT) dbT.Text = $"{_s.DbDelayMs} ms";
-        if (FindName("IbDelayText") is TextBlock ibT) ibT.Text = $"{_s.IbDelayMs} ms";
+        DeDelayText.Text = $"{_s.DeDelayMs} ms";
+        SeDelayText.Text = $"{_s.SeDelayMs} ms";
+        DbDelayText.Text = $"{_s.DbDelayMs} ms";
+        IbDelayText.Text = $"{_s.IbDelayMs} ms";
+        SpDelayText.Text = $"{_s.SpDelayMs} ms";
     }
 
     private void RefreshStatusDots()
     {
         var on  = new SolidColorBrush(Color.FromRgb(0x22, 0xcc, 0x55));
         var off = new SolidColorBrush(Color.FromRgb(0x1a, 0x2a, 0x1a));
-        if (FindName("DeStatusDot") is System.Windows.Shapes.Ellipse de) de.Fill = _s.DeEnabled ? on : off;
-        if (FindName("SeStatusDot") is System.Windows.Shapes.Ellipse p1) p1.Fill = _s.SeEnabled ? on : off;
-        if (FindName("DbStatusDot") is System.Windows.Shapes.Ellipse p2) p2.Fill = _s.DbEnabled ? on : off;
-        if (FindName("IbStatusDot") is System.Windows.Shapes.Ellipse p3) p3.Fill = _s.IbEnabled ? on : off;
-        if (FindName("SpStatusDot") is System.Windows.Shapes.Ellipse p4) p4.Fill = _s.SpEnabled ? on : off;
+        DeStatusDot.Fill = _s.DeEnabled ? on : off;
+        SeStatusDot.Fill = _s.SeEnabled ? on : off;
+        DbStatusDot.Fill = _s.DbEnabled ? on : off;
+        IbStatusDot.Fill = _s.IbEnabled ? on : off;
+        SpStatusDot.Fill = _s.SpEnabled ? on : off;
     }
 
     private static string DisplayKey(string key)
@@ -733,6 +738,7 @@ public partial class MainWindow : Window
     private void DeBindBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.DeBind = k); }
     private void SeBindBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.SeBind = k); }
     private void DbBindBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.DbBind = k); }
+    private void IbBindBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.IbBind = k); }
     private void SpBindBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.SpBind = k); }
 
     private bool _spDropdownOpen = false;
@@ -1231,3 +1237,25 @@ internal static class JsonExt
         return false;
     }
 }
+
+    private void AlPosBotLeft_Click(object s, RoutedEventArgs e) => SetAlPosition("Bottom Left");
+    private void AlPosTopLeft_Click(object s, RoutedEventArgs e) => SetAlPosition("Top Left");
+    private void KbBuildingEditBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbBuildingEdit = k); }
+    private void KbConeBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbCone = k); }
+    private void KbFloorBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbFloor = k); }
+    private void KbInteractBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbInteract = k); }
+    private void KbPickaxeBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbPickaxe = k); }
+    private void KbSecondaryShootBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSecondaryShoot = k); }
+    private void KbSecondaryWallBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSecondaryWall = k); }
+    private void KbSelectBuildingEditBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSelectBuildingEdit = k); }
+    private void KbShotgunBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbShotgun = k); }
+    private void KbSlot1Btn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSlot1 = k); }
+    private void KbSlot2Btn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSlot2 = k); }
+    private void KbSlot3Btn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSlot3 = k); }
+    private void KbSlot4Btn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSlot4 = k); }
+    private void KbSlot5Btn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSlot5 = k); }
+    private void KbSprintBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbSprint = k); }
+    private void KbStairsBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbStairs = k); }
+    private void KbWalkForwardBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbWalkForward = k); }
+    private void KbWallBtn_Click(object s, RoutedEventArgs e) { if (s is Button b) StartBinding(b, k => _s.KbWall = k); }
+    private void SpModeHoldBtn_Click(object s, RoutedEventArgs e) => SetSpMode("Hold");
