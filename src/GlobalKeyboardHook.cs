@@ -302,6 +302,7 @@ public static class WindowGuard
 {
     private static readonly string[] AllowedTitles =
     {
+        "fortnite",
         "g47ov46p7a0ty82e"
     };
 
@@ -311,11 +312,15 @@ public static class WindowGuard
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
     private static extern int GetWindowText(IntPtr hWnd, System.Text.StringBuilder lpString, int nMaxCount);
 
+    [DllImport("user32.dll")]
+    private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
     public static bool IsGameActive()
     {
         IntPtr hwnd = GetForegroundWindow();
         if (hwnd == IntPtr.Zero) return false;
 
+        // 1. Sprawdzanie po tytule okna (fallback)
         var sb = new System.Text.StringBuilder(256);
         GetWindowText(hwnd, sb, sb.Capacity);
         string title = sb.ToString().ToLowerInvariant();
@@ -323,6 +328,21 @@ public static class WindowGuard
         foreach (var allowed in AllowedTitles)
             if (title.Contains(allowed))
                 return true;
+
+        // 2. Sprawdzanie po nazwie procesu (najbardziej niezawodne przy losowych tytułach)
+        try
+        {
+            GetWindowThreadProcessId(hwnd, out uint processId);
+            if (processId == 0) return false;
+
+            using var proc = Process.GetProcessById((int)processId);
+            string procName = proc.ProcessName.ToLowerInvariant();
+
+            // "fortniteclient-win64-shipping" to standardowa nazwa procesu Fortnite
+            if (procName.Contains("fortniteclient-win64-shipping") || procName == "fortnite")
+                return true;
+        }
+        catch { }
 
         return false;
     }
