@@ -28,6 +28,7 @@ public class AppState
     public string DbBind { get; set; } = "";
     public string SpBind { get; set; } = "";
     public string DeBind { get; set; } = "";
+    public string IbBind { get; set; } = "";
 
     public string KbBuildingEdit           { get; set; } = "";
     public string KbSelectBuildingEdit     { get; set; } = "";

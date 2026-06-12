@@ -51,6 +51,14 @@
                 </StackPanel>
             </Grid>
 
+            <!-- GOODBYE OVERLAY -->
+            <Grid x:Name="GoodbyeOverlay" Background="#0a0a0a" Panel.ZIndex="11" Visibility="Collapsed" Opacity="0">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="GOODBYE" FontFamily="{StaticResource BebasNeue}" FontSize="96" Foreground="#f5f5f5" HorizontalAlignment="Center"/>
+                    <TextBlock Text="See you next time!" FontFamily="{StaticResource IBMPlexMono}" FontSize="11" Foreground="{StaticResource Muted}" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                </StackPanel>
+            </Grid>
+
             <!-- MAIN UI -->
             <Border x:Name="MainGrid" Visibility="Collapsed"
                     Background="Transparent" Panel.ZIndex="1">
@@ -91,6 +99,7 @@
                                 <Button x:Name="BtnKeybinds" Content="KEYBINDS" Style="{StaticResource TopNavBtn}" Click="BtnKeybinds_Click" Margin="0,0,20,0"/>
                                 <Button x:Name="BtnSettings" Content="SETTINGS" Style="{StaticResource TopNavBtn}" Click="BtnSettings_Click" Margin="0,0,20,0"/>
                                 <Button x:Name="BtnCrosshairs" Content="CROSSHAIRS" Style="{StaticResource TopNavBtn}" Click="BtnCrosshairs_Click" Margin="0,0,20,0"/>
+                                <Button x:Name="BtnArraylist" Content="ARRAYLIST" Style="{StaticResource TopNavBtn}" Click="BtnArraylist_Click" Margin="0,0,20,0"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
@@ -117,17 +126,180 @@
                                     <!-- MODULE SELECTOR (HORIZONTAL) -->
                                     <UniformGrid Columns="5" Margin="0,0,0,30">
                                         <ToggleButton x:Name="DeToggle" Content="Drag Edit" Style="{StaticResource ModuleBtn}" Margin="0,0,10,0" Checked="Toggles_Changed" Unchecked="Toggles_Changed"/>
+                                        <Ellipse x:Name="DeStatusDot" Width="8" Height="8" Fill="#1a2a1a" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0"/>
                                         <ToggleButton x:Name="SeToggle" Content="Single Edit" Style="{StaticResource ModuleBtn}" Margin="0,0,10,0" Checked="Toggles_Changed" Unchecked="Toggles_Changed"/>
+                                        <Ellipse x:Name="SeStatusDot" Width="8" Height="8" Fill="#1a2a1a" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0"/>
                                         <ToggleButton x:Name="DbToggle" Content="Double Edit" Style="{StaticResource ModuleBtn}" Margin="0,0,10,0" Checked="Toggles_Changed" Unchecked="Toggles_Changed"/>
+                                        <Ellipse x:Name="DbStatusDot" Width="8" Height="8" Fill="#1a2a1a" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0"/>
                                         <ToggleButton x:Name="IbToggle" Content="Instant Build" Style="{StaticResource ModuleBtn}" Margin="0,0,10,0" Checked="Toggles_Changed" Unchecked="Toggles_Changed"/>
-                                        <ToggleButton x:Name="PulloutToggle" Content="Item Pullout" Style="{StaticResource ModuleBtn}" Checked="Toggles_Changed" Unchecked="Toggles_Changed"/>
+                                        <Ellipse x:Name="IbStatusDot" Width="8" Height="8" Fill="#1a2a1a" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0"/>
+                                        <ToggleButton x:Name="SpToggle" Content="Sprint" Style="{StaticResource ModuleBtn}" Margin="0,0,10,0" Checked="Toggles_Changed" Unchecked="Toggles_Changed"/>
+                                        <Ellipse x:Name="SpStatusDot" Width="8" Height="8" Fill="#1a2a1a" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0"/>
                                     </UniformGrid>
 
                                     <!-- DYNAMIC SETTINGS AREA (Currently showing Double Edit as example) -->
                                     <Grid x:Name="ModuleSettingsContainer">
                                         <!-- This would be dynamically updated, but for now we put everything in a stack -->
                                         <StackPanel>
-                                            <!-- DOUBLE EDIT SECTION -->
+                                            <!-- DRAG EDIT SECTION -->
+                                            <Border x:Name="DePanel" Background="#111111" CornerRadius="8" Padding="25" Margin="0,0,0,20" BorderBrush="#222222" BorderThickness="1">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="20"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                                        <TextBlock Text="Drag Edit" FontSize="14" FontWeight="Bold" Foreground="#f5f5f5" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                                                        <ToggleButton x:Name="DeToggleSwitch" IsChecked="{Binding IsChecked, ElementName=DeToggle, Mode=TwoWay}" Style="{StaticResource ToggleSwitch}"/>
+                                                        <TextBlock Text="ON" FontSize="10" Foreground="{StaticResource Accent}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                                    </StackPanel>
+
+                                                    <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,10,0">
+                                                        <Border Background="#1a1a1a" CornerRadius="6" Padding="15,10">
+                                                            <StackPanel>
+                                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                                                    <Border Background="{StaticResource AccentDim}" CornerRadius="4" Width="24" Height="24" Margin="0,0,10,0">
+                                                                        <TextBlock Text="K" Foreground="{StaticResource Accent}" FontSize="12" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                    </Border>
+                                                                    <TextBlock Text="KEYBIND" FontSize="10" Foreground="{StaticResource Muted}" VerticalAlignment="Center"/>
+                                                                </StackPanel>
+                                                                <Button x:Name="DeBindBtn" Style="{StaticResource DarkBtn}" Background="Transparent" HorizontalContentAlignment="Left" Click="DeBindBtn_Click" Content="R"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </StackPanel>
+
+                                                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="10,0,0,0">
+                                                        <Border Background="#1a1a1a" CornerRadius="6" Padding="15,10">
+                                                            <StackPanel>
+                                                                <Grid Margin="0,0,0,10">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <Border Background="{StaticResource AccentDim}" CornerRadius="4" Width="24" Height="24" Margin="0,0,10,0">
+                                                                            <TextBlock Text="ms" Foreground="{StaticResource Accent}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                        </Border>
+                                                                        <TextBlock Text="DELAY" FontSize="10" Foreground="{StaticResource Muted}" VerticalAlignment="Center"/>
+                                                                    </StackPanel>
+                                                                    <TextBlock x:Name="DeDelayText" Text="0 ms" FontSize="11" Foreground="#f5f5f5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                                </Grid>
+                                                                <Slider x:Name="DeDelaySlider" Style="{StaticResource DarkSlider}" Minimum="0" Maximum="100" ValueChanged="Sliders_Changed"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+
+                                            <!-- SINGLE EDIT SECTION -->
+                                            <Border x:Name="SePanel" Background="#111111" CornerRadius="8" Padding="25" Margin="0,0,0,20" BorderBrush="#222222" BorderThickness="1">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="20"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                                        <TextBlock Text="Single Edit" FontSize="14" FontWeight="Bold" Foreground="#f5f5f5" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                                                        <ToggleButton x:Name="SeToggleSwitch" IsChecked="{Binding IsChecked, ElementName=SeToggle, Mode=TwoWay}" Style="{StaticResource ToggleSwitch}"/>
+                                                        <TextBlock Text="ON" FontSize="10" Foreground="{StaticResource Accent}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                                    </StackPanel>
+
+                                                    <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,10,0">
+                                                        <Border Background="#1a1a1a" CornerRadius="6" Padding="15,10">
+                                                            <StackPanel>
+                                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                                                    <Border Background="{StaticResource AccentDim}" CornerRadius="4" Width="24" Height="24" Margin="0,0,10,0">
+                                                                        <TextBlock Text="K" Foreground="{StaticResource Accent}" FontSize="12" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                    </Border>
+                                                                    <TextBlock Text="KEYBIND" FontSize="10" Foreground="{StaticResource Muted}" VerticalAlignment="Center"/>
+                                                                </StackPanel>
+                                                                <Button x:Name="SeBindBtn" Style="{StaticResource DarkBtn}" Background="Transparent" HorizontalContentAlignment="Left" Click="SeBindBtn_Click" Content="R"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </StackPanel>
+
+                                                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="10,0,0,0">
+                                                        <Border Background="#1a1a1a" CornerRadius="6" Padding="15,10">
+                                                            <StackPanel>
+                                                                <Grid Margin="0,0,0,10">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <Border Background="{StaticResource AccentDim}" CornerRadius="4" Width="24" Height="24" Margin="0,0,10,0">
+                                                                            <TextBlock Text="ms" Foreground="{StaticResource Accent}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                        </Border>
+                                                                        <TextBlock Text="DELAY" FontSize="10" Foreground="{StaticResource Muted}" VerticalAlignment="Center"/>
+                                                                    </StackPanel>
+                                                                    <TextBlock x:Name="SeDelayText" Text="0 ms" FontSize="11" Foreground="#f5f5f5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                                </Grid>
+                                                                <Slider x:Name="SeDelaySlider" Style="{StaticResource DarkSlider}" Minimum="0" Maximum="100" ValueChanged="Sliders_Changed"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+
+                                            <!-- INSTANT BUILD SECTION -->
+                                            <Border x:Name="IbPanel" Background="#111111" CornerRadius="8" Padding="25" Margin="0,0,0,20" BorderBrush="#222222" BorderThickness="1">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="20"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                                        <TextBlock Text="Instant Build" FontSize="14" FontWeight="Bold" Foreground="#f5f5f5" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                                                        <ToggleButton x:Name="IbToggleSwitch" IsChecked="{Binding IsChecked, ElementName=IbToggle, Mode=TwoWay}" Style="{StaticResource ToggleSwitch}"/>
+                                                        <TextBlock Text="ON" FontSize="10" Foreground="{StaticResource Accent}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                                    </StackPanel>
+
+                                                    <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,10,0">
+                                                        <Border Background="#1a1a1a" CornerRadius="6" Padding="15,10">
+                                                            <StackPanel>
+                                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                                                    <Border Background="{StaticResource AccentDim}" CornerRadius="4" Width="24" Height="24" Margin="0,0,10,0">
+                                                                        <TextBlock Text="K" Foreground="{StaticResource Accent}" FontSize="12" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                    </Border>
+                                                                    <TextBlock Text="KEYBIND" FontSize="10" Foreground="{StaticResource Muted}" VerticalAlignment="Center"/>
+                                                                </StackPanel>
+                                                                <Button x:Name="IbBindBtn" Style="{StaticResource DarkBtn}" Background="Transparent" HorizontalContentAlignment="Left" Click="IbBindBtn_Click" Content="R"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </StackPanel>
+
+                                                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="10,0,0,0">
+                                                        <Border Background="#1a1a1a" CornerRadius="6" Padding="15,10">
+                                                            <StackPanel>
+                                                                <Grid Margin="0,0,0,10">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <Border Background="{StaticResource AccentDim}" CornerRadius="4" Width="24" Height="24" Margin="0,0,10,0">
+                                                                            <TextBlock Text="ms" Foreground="{StaticResource Accent}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                        </Border>
+                                                                        <TextBlock Text="DELAY" FontSize="10" Foreground="{StaticResource Muted}" VerticalAlignment="Center"/>
+                                                                    </StackPanel>
+                                                                    <TextBlock x:Name="IbDelayText" Text="0 ms" FontSize="11" Foreground="#f5f5f5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                                </Grid>
+                                                                <Slider x:Name="IbDelaySlider" Style="{StaticResource DarkSlider}" Minimum="0" Maximum="100" ValueChanged="Sliders_Changed"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+
+
+
+                                            <!-- SPRINT MODE DROPDOWN -->
                                             <Border Background="#111111" CornerRadius="8" Padding="25" Margin="0,0,0,20" BorderBrush="#222222" BorderThickness="1">
                                                 <Grid>
                                                     <Grid.ColumnDefinitions>
@@ -141,8 +313,87 @@
                                                     </Grid.RowDefinitions>
 
                                                     <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                                        <TextBlock Text="Sprint Mode" FontSize="14" FontWeight="Bold" Foreground="#f5f5f5" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                                                        <Button x:Name="SpModeBtn" Style="{StaticResource DarkBtn}" Background="Transparent" HorizontalContentAlignment="Left" Click="SpModeBtn_Click" Content="Toggle"/>
+                                                    </StackPanel>
+
+                                                    <Grid x:Name="SpModeDropdown" Grid.Row="2" Grid.ColumnSpan="2" Height="0" VerticalAlignment="Top" Margin="0,10,0,0">
+                                                        <StackPanel>
+                                                            <Button x:Name="SpModeToggleBtn" Style="{StaticResource DarkBtn}" Background="Transparent" HorizontalContentAlignment="Left" Click="SpModeToggleBtn_Click" Content="Toggle"/>
+                                                            <Button x:Name="SpModeHoldBtn" Style="{StaticResource DarkBtn}" Background="Transparent" HorizontalContentAlignment="Left" Click="SpModeHoldBtn_Click" Content="Hold"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Grid>
+                                            </Border>
+
+
+                                            <Border Background="#111111" CornerRadius="8" Padding="25" Margin="0,0,0,20" BorderBrush="#222222" BorderThickness="1">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="20"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                                        <TextBlock Text="Sprint" FontSize="14" FontWeight="Bold" Foreground="#f5f5f5" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                                                        <ToggleButton x:Name="SpToggleSwitch" IsChecked="{Binding IsChecked, ElementName=SpToggle, Mode=TwoWay}" Style="{StaticResource ToggleSwitch}"/>
+                                                        <TextBlock Text="ON" FontSize="10" Foreground="{StaticResource Accent}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                                    </StackPanel>
+
+                                                    <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,10,0">
+                                                        <Border Background="#1a1a1a" CornerRadius="6" Padding="15,10">
+                                                            <StackPanel>
+                                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                                                    <Border Background="{StaticResource AccentDim}" CornerRadius="4" Width="24" Height="24" Margin="0,0,10,0">
+                                                                        <TextBlock Text="K" Foreground="{StaticResource Accent}" FontSize="12" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                    </Border>
+                                                                    <TextBlock Text="KEYBIND" FontSize="10" Foreground="{StaticResource Muted}" VerticalAlignment="Center"/>
+                                                                </StackPanel>
+                                                                <Button x:Name="SpBindBtn" Style="{StaticResource DarkBtn}" Background="Transparent" HorizontalContentAlignment="Left" Click="SpBindBtn_Click" Content="R"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </StackPanel>
+
+                                                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="10,0,0,0">
+                                                        <Border Background="#1a1a1a" CornerRadius="6" Padding="15,10">
+                                                            <StackPanel>
+                                                                <Grid Margin="0,0,0,10">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <Border Background="{StaticResource AccentDim}" CornerRadius="4" Width="24" Height="24" Margin="0,0,10,0">
+                                                                            <TextBlock Text="ms" Foreground="{StaticResource Accent}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                        </Border>
+                                                                        <TextBlock Text="DELAY" FontSize="10" Foreground="{StaticResource Muted}" VerticalAlignment="Center"/>
+                                                                    </StackPanel>
+                                                                    <TextBlock x:Name="SpDelayText" Text="0 ms" FontSize="11" Foreground="#f5f5f5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                                </Grid>
+                                                                <Slider x:Name="SpDelaySlider" Style="{StaticResource DarkSlider}" Minimum="0" Maximum="100" ValueChanged="Sliders_Changed"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+
+                                            <!-- DOUBLE EDIT SECTION -->
+                                            <Border x:Name="DbPanel" Background="#111111" CornerRadius="8" Padding="25" Margin="0,0,0,20" BorderBrush="#222222" BorderThickness="1">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="20"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <StackPanel Grid.Row="0" Orientation="Horizontal">
                                                         <TextBlock Text="Double Edit" FontSize="14" FontWeight="Bold" Foreground="#f5f5f5" VerticalAlignment="Center" Margin="0,0,15,0"/>
-                                                        <ToggleButton IsChecked="{Binding IsChecked, ElementName=DbToggle, Mode=TwoWay}" Style="{StaticResource ToggleSwitch}"/>
+                                                        <ToggleButton x:Name="DbToggleSwitch" IsChecked="{Binding IsChecked, ElementName=DbToggle, Mode=TwoWay}" Style="{StaticResource ToggleSwitch}"/>
                                                         <TextBlock Text="ON" FontSize="10" Foreground="{StaticResource Accent}" VerticalAlignment="Center" Margin="10,0,0,0"/>
                                                     </StackPanel>
 
@@ -180,7 +431,7 @@
                                             </Border>
                                             
                                             <!-- ITEM PULLOUT SECTION -->
-                                            <Border Background="#111111" CornerRadius="8" Padding="25" Margin="0,0,0,20" BorderBrush="#222222" BorderThickness="1">
+                                            <Border x:Name="PulloutPanel" Background="#111111" CornerRadius="8" Padding="25" Margin="0,0,0,20" BorderBrush="#222222" BorderThickness="1">
                                                 <StackPanel>
                                                     <TextBlock Text="Item Pullout Configuration" FontSize="14" FontWeight="Bold" Foreground="#f5f5f5" Margin="0,0,0,20"/>
                                                     <UniformGrid Columns="4">
@@ -239,6 +490,58 @@
                                                 <TextBlock Text="Slot 2" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
                                                 <Button x:Name="KbSlot2Btn" Style="{StaticResource DarkBtn}" Click="KbSlot2Btn_Click"/>
                                             </StackPanel>
+                                            <StackPanel Margin="0,0,10,10">
+                                                <TextBlock Text="Slot 3" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbSlot3Btn" Style="{StaticResource DarkBtn}" Click="KbSlot3Btn_Click"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="10,0,0,10">
+                                                <TextBlock Text="Slot 4" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbSlot4Btn" Style="{StaticResource DarkBtn}" Click="KbSlot4Btn_Click"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="0,0,10,10">
+                                                <TextBlock Text="Slot 5" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbSlot5Btn" Style="{StaticResource DarkBtn}" Click="KbSlot5Btn_Click"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="10,0,0,10">
+                                                <TextBlock Text="Wall" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbWallBtn" Style="{StaticResource DarkBtn}" Click="KbWallBtn_Click"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="0,0,10,10">
+                                                <TextBlock Text="Floor" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbFloorBtn" Style="{StaticResource DarkBtn}" Click="KbFloorBtn_Click"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="10,0,0,10">
+                                                <TextBlock Text="Stairs" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbStairsBtn" Style="{StaticResource DarkBtn}" Click="KbStairsBtn_Click"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="0,0,10,10">
+                                                <TextBlock Text="Cone" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbConeBtn" Style="{StaticResource DarkBtn}" Click="KbConeBtn_Click"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="10,0,0,10">
+                                                <TextBlock Text="Sec. Place" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbSecondaryPlaceBuildingBtn" Style="{StaticResource DarkBtn}" Click="KbSecondaryPlaceBuildingBtn_Click"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="0,0,10,10">
+                                                <TextBlock Text="Sprint" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbSprintBtn" Style="{StaticResource DarkBtn}" Click="KbSprintBtn_Click"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="10,0,0,10">
+                                                <TextBlock Text="Walk Fwd" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbWalkForwardBtn" Style="{StaticResource DarkBtn}" Click="KbWalkForwardBtn_Click"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="0,0,10,10">
+                                                <TextBlock Text="Interact" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbInteractBtn" Style="{StaticResource DarkBtn}" Click="KbInteractBtn_Click"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="10,0,0,10">
+                                                <TextBlock Text="Sec. Shoot" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbSecondaryShootBtn" Style="{StaticResource DarkBtn}" Click="KbSecondaryShootBtn_Click"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="0,0,10,10">
+                                                <TextBlock Text="Sec. Wall" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbSecondaryWallBtn" Style="{StaticResource DarkBtn}" Click="KbSecondaryWallBtn_Click"/>
+                                            </StackPanel>
                                         </UniformGrid>
                                     </Border>
                                 </StackPanel>
@@ -270,7 +573,40 @@
                                     </Border>
                                 </StackPanel>
 
-                                <!-- ARRAYLIST PANEL -->
+                                            <!-- PROOF KEY SETTING -->
+                                            <Border Background="#111111" CornerRadius="8" Padding="25" Margin="0,0,0,20" BorderBrush="#222222" BorderThickness="1">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="20"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                                        <TextBlock Text="Proof Key" FontSize="14" FontWeight="Bold" Foreground="#f5f5f5" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                                                    </StackPanel>
+
+                                                    <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,10,0">
+                                                        <Border Background="#1a1a1a" CornerRadius="6" Padding="15,10">
+                                                            <StackPanel>
+                                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                                                    <Border Background="{StaticResource AccentDim}" CornerRadius="4" Width="24" Height="24" Margin="0,0,10,0">
+                                                                        <TextBlock Text="K" Foreground="{StaticResource Accent}" FontSize="12" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                    </Border>
+                                                                    <TextBlock Text="KEYBIND" FontSize="10" Foreground="{StaticResource Muted}" VerticalAlignment="Center"/>
+                                                                </StackPanel>
+                                                                <Button x:Name="ProofKeyBtn" Style="{StaticResource DarkBtn}" Background="Transparent" HorizontalContentAlignment="Left" Click="ProofKeyBtn_Click" Content="R"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+
+                                            <!-- ARRAYLIST PANEL -->
                                 <StackPanel x:Name="ArraylistPanel" Visibility="Collapsed">
                                     <TextBlock Text="ArrayList Settings" FontFamily="{StaticResource IBMPlexMono}" FontSize="14" Foreground="#f5f5f5" Margin="0,0,0,20"/>
                                     <Border Background="#111111" CornerRadius="8" Padding="25" BorderBrush="#222222" BorderThickness="1">
