@@ -4,16 +4,18 @@
              StartupUri="src/MainWindow.xaml">
     <Application.Resources>
 
-        <SolidColorBrush x:Key="BgDeep"   Color="#080808"/>
-        <SolidColorBrush x:Key="BgCard"   Color="#0f0f0f"/>
-        <SolidColorBrush x:Key="BgPanel"  Color="#0a0a0a"/>
-        <SolidColorBrush x:Key="BgBtn"    Color="#141414"/>
-        <SolidColorBrush x:Key="BgHover"  Color="#1e1e1e"/>
-        <SolidColorBrush x:Key="BorderClr" Color="#1e1e1e"/>
+        <SolidColorBrush x:Key="BgDeep"   Color="#0a0a0a"/>
+        <SolidColorBrush x:Key="BgCard"   Color="#111111"/>
+        <SolidColorBrush x:Key="BgPanel"  Color="#0e0e0e"/>
+        <SolidColorBrush x:Key="BgBtn"    Color="#1a1a1a"/>
+        <SolidColorBrush x:Key="BgHover"  Color="#252525"/>
+        <SolidColorBrush x:Key="BorderClr" Color="#222222"/>
         <SolidColorBrush x:Key="White"    Color="#f5f5f5"/>
-        <SolidColorBrush x:Key="Muted"    Color="#5a5a5a"/>
-        <SolidColorBrush x:Key="Muted2"   Color="#2a2a2a"/>
-        <SolidColorBrush x:Key="Red"      Color="#aa2020"/>
+        <SolidColorBrush x:Key="Muted"    Color="#777777"/>
+        <SolidColorBrush x:Key="Muted2"   Color="#333333"/>
+        <SolidColorBrush x:Key="Accent"   Color="#ff79c6"/>
+        <SolidColorBrush x:Key="AccentDim" Color="#44ff79c6"/>
+        <SolidColorBrush x:Key="Red"      Color="#ff5555"/>
 
         <FontFamily x:Key="BebasNeue">/Macronic;component/Fonts/#Bebas Neue</FontFamily>
         <FontFamily x:Key="IBMPlexMono">/Macronic;component/Fonts/#IBM Plex Mono</FontFamily>
@@ -114,16 +116,40 @@
         <ControlTemplate x:Key="NavBtnTemplate" TargetType="Button">
             <Border x:Name="Bd"
                     Background="{TemplateBinding Background}"
-                    Padding="{TemplateBinding Padding}">
-                <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    Padding="{TemplateBinding Padding}"
+                    BorderThickness="0,0,0,2">
+                <Border.BorderBrush>
+                    <SolidColorBrush x:Name="BdBorder" Color="Transparent"/>
+                </Border.BorderBrush>
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Border>
             <ControlTemplate.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter TargetName="Bd" Property="Background"
-                            Value="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"/>
+                    <Setter TargetName="Bd" Property="Background" Value="{StaticResource BgHover}"/>
                 </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter TargetName="Bd" Property="Opacity" Value="0.7"/>
+                <Trigger Property="Tag" Value="Active">
+                    <Setter TargetName="BdBorder" Property="Color" Value="#ff79c6"/>
+                    <Setter Property="Foreground" Value="{StaticResource Accent}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ModuleBtnTemplate" TargetType="ToggleButton">
+            <Border x:Name="Bd"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="{TemplateBinding Padding}">
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource Accent}"/>
+                    <Setter TargetName="Bd" Property="Background" Value="{StaticResource AccentDim}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="Bd" Property="Background" Value="{StaticResource BgHover}"/>
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
@@ -188,6 +214,28 @@
             <Setter Property="Height"      Value="32"/>
         </Style>
 
+        <Style x:Key="AccentBtnPink" TargetType="Button" BasedOn="{StaticResource DarkBtn}">
+            <Setter Property="Background"  Value="{StaticResource Accent}"/>
+            <Setter Property="Tag"         Value="#ff8ad2"/>
+            <Setter Property="Foreground"  Value="{StaticResource White}"/>
+            <Setter Property="FontWeight"  Value="Bold"/>
+            <Setter Property="Height"      Value="32"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="4" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{Binding Tag, RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style x:Key="TitleIconBtn" TargetType="Button">
             <Setter Property="Background"      Value="Transparent"/>
             <Setter Property="Tag"             Value="{StaticResource BgHover}"/>
@@ -208,46 +256,57 @@
             <Setter Property="Template"        Value="{StaticResource TitleCloseBtnTemplate}"/>
         </Style>
 
-        <Style x:Key="SideNavBtn" TargetType="Button">
+        <Style x:Key="TopNavBtn" TargetType="Button">
             <Setter Property="Background"              Value="Transparent"/>
-            <Setter Property="Tag"                     Value="{StaticResource BgBtn}"/>
-            <Setter Property="Foreground"              Value="{StaticResource White}"/>
+            <Setter Property="Foreground"              Value="{StaticResource Muted}"/>
             <Setter Property="FontFamily"              Value="{StaticResource IBMPlexMono}"/>
-            <Setter Property="FontSize"                Value="11"/>
-            <Setter Property="Height"                  Value="32"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="Padding"                 Value="16,0"/>
+            <Setter Property="FontSize"                Value="10"/>
+            <Setter Property="FontWeight"              Value="Bold"/>
+            <Setter Property="Height"                  Value="40"/>
+            <Setter Property="Padding"                 Value="12,0"/>
             <Setter Property="BorderThickness"         Value="0"/>
             <Setter Property="Cursor"                  Value="Hand"/>
             <Setter Property="Template"                Value="{StaticResource NavBtnTemplate}"/>
         </Style>
 
+        <Style x:Key="ModuleBtn" TargetType="ToggleButton">
+            <Setter Property="Background"      Value="{StaticResource BgBtn}"/>
+            <Setter Property="BorderBrush"     Value="{StaticResource BorderClr}"/>
+            <Setter Property="Foreground"      Value="{StaticResource White}"/>
+            <Setter Property="FontFamily"      Value="{StaticResource IBMPlexMono}"/>
+            <Setter Property="FontSize"        Value="10"/>
+            <Setter Property="Height"          Value="34"/>
+            <Setter Property="Padding"         Value="12,0"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Template"        Value="{StaticResource ModuleBtnTemplate}"/>
+        </Style>
+
         <Style x:Key="ToggleSwitch" TargetType="ToggleButton">
             <Setter Property="Cursor"          Value="Hand"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Width"           Value="44"/>
-            <Setter Property="Height"          Value="22"/>
+            <Setter Property="Width"           Value="38"/>
+            <Setter Property="Height"          Value="18"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ToggleButton">
-                        <Border x:Name="Track" Width="44" Height="22" BorderThickness="1">
+                        <Border x:Name="Track" Width="38" Height="18" CornerRadius="9" BorderThickness="1">
                             <Border.BorderBrush>
-                                <SolidColorBrush x:Name="TrackBorder" Color="#2a2a2a"/>
+                                <SolidColorBrush x:Name="TrackBorder" Color="#333333"/>
                             </Border.BorderBrush>
                             <Border.Background>
-                                <SolidColorBrush x:Name="TrackBg" Color="#141414"/>
+                                <SolidColorBrush x:Name="TrackBg" Color="#1a1a1a"/>
                             </Border.Background>
-                            <Rectangle x:Name="Thumb" Width="14" Height="14"
+                            <Ellipse x:Name="Thumb" Width="12" Height="12"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       Margin="3,0,0,0">
-                                <Rectangle.Fill>
-                                    <SolidColorBrush x:Name="ThumbFill" Color="#5a5a5a"/>
-                                </Rectangle.Fill>
-                                <Rectangle.RenderTransform>
+                                       Margin="2,0,0,0">
+                                <Ellipse.Fill>
+                                    <SolidColorBrush x:Name="ThumbFill" Color="#777777"/>
+                                </Ellipse.Fill>
+                                <Ellipse.RenderTransform>
                                     <TranslateTransform x:Name="ThumbSlide" X="0"/>
-                                </Rectangle.RenderTransform>
-                            </Rectangle>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
@@ -257,7 +316,7 @@
                                             <DoubleAnimation
                                                 Storyboard.TargetName="ThumbSlide"
                                                 Storyboard.TargetProperty="X"
-                                                To="24" Duration="0:0:0.14">
+                                                To="20" Duration="0:0:0.14">
                                                 <DoubleAnimation.EasingFunction>
                                                     <CubicEase EasingMode="EaseOut"/>
                                                 </DoubleAnimation.EasingFunction>
@@ -265,15 +324,15 @@
                                             <ColorAnimation
                                                 Storyboard.TargetName="TrackBg"
                                                 Storyboard.TargetProperty="Color"
-                                                To="#f5f5f5" Duration="0:0:0.14"/>
+                                                To="#ff79c6" Duration="0:0:0.14"/>
                                             <ColorAnimation
                                                 Storyboard.TargetName="TrackBorder"
                                                 Storyboard.TargetProperty="Color"
-                                                To="#f5f5f5" Duration="0:0:0.14"/>
+                                                To="#ff79c6" Duration="0:0:0.14"/>
                                             <ColorAnimation
                                                 Storyboard.TargetName="ThumbFill"
                                                 Storyboard.TargetProperty="Color"
-                                                To="#080808" Duration="0:0:0.14"/>
+                                                To="#ffffff" Duration="0:0:0.14"/>
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </Trigger.EnterActions>
@@ -291,21 +350,18 @@
                                             <ColorAnimation
                                                 Storyboard.TargetName="TrackBg"
                                                 Storyboard.TargetProperty="Color"
-                                                To="#141414" Duration="0:0:0.14"/>
+                                                To="#1a1a1a" Duration="0:0:0.14"/>
                                             <ColorAnimation
                                                 Storyboard.TargetName="TrackBorder"
                                                 Storyboard.TargetProperty="Color"
-                                                To="#2a2a2a" Duration="0:0:0.14"/>
+                                                To="#333333" Duration="0:0:0.14"/>
                                             <ColorAnimation
                                                 Storyboard.TargetName="ThumbFill"
                                                 Storyboard.TargetProperty="Color"
-                                                To="#5a5a5a" Duration="0:0:0.14"/>
+                                                To="#777777" Duration="0:0:0.14"/>
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </Trigger.ExitActions>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="Track" Property="Opacity" Value="0.72"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -319,18 +375,23 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Slider">
                         <Grid Height="16">
-                            <Rectangle Height="1" Fill="#1e1e1e" VerticalAlignment="Center"/>
+                            <Rectangle Height="2" Fill="{StaticResource Muted2}" VerticalAlignment="Center" RadiusX="1" RadiusY="1"/>
                             <Track x:Name="PART_Track">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="Slider.DecreaseLarge">
+                                        <RepeatButton.Template>
+                                            <ControlTemplate TargetType="RepeatButton">
+                                                <Rectangle Height="2" Fill="{StaticResource Accent}"/>
+                                            </ControlTemplate>
+                                        </RepeatButton.Template>
+                                    </RepeatButton>
+                                </Track.DecreaseRepeatButton>
                                 <Track.Thumb>
                                     <Thumb Cursor="Hand">
                                         <Thumb.Template>
                                             <ControlTemplate TargetType="Thumb">
-                                                <Ellipse x:Name="ThumbDot" Width="9" Height="9"
-                                                         Cursor="Hand">
-                                                    <Ellipse.Fill>
-                                                        <SolidColorBrush Color="#f5f5f5"/>
-                                                    </Ellipse.Fill>
-                                                </Ellipse>
+                                                <Ellipse x:Name="ThumbDot" Width="10" Height="10"
+                                                         Fill="{StaticResource White}" Stroke="{StaticResource Accent}" StrokeThickness="2"/>
                                             </ControlTemplate>
                                         </Thumb.Template>
                                     </Thumb>

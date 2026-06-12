@@ -285,37 +285,27 @@ public partial class MainWindow : Window
 
     private void InitButtons()
     {
-        DeBindBtn.Content = DisplayKey(_s.DeBind);
-        SeBindBtn.Content = DisplayKey(_s.SeBind);
-
-        DbBindBtn.Content  = DisplayKey(_s.DbBind);
-
-        SpBindBtn.Content  = DisplayKey(_s.SpBind);
-        SpModeBtn.Content  = _s.SpMode;
-        SpModeToggleBtn.FontSize   = _s.SpMode == "Toggle" ? 10 : 9;
-        SpModeToggleBtn.Foreground = _s.SpMode == "Toggle"
-            ? new SolidColorBrush(Color.FromRgb(0xf5, 0xf5, 0xf5))
-            : new SolidColorBrush(Color.FromRgb(0x5a, 0x5a, 0x5a));
-        SpModeHoldBtn.FontSize   = _s.SpMode == "Hold" ? 10 : 9;
-        SpModeHoldBtn.Foreground = _s.SpMode == "Hold"
-            ? new SolidColorBrush(Color.FromRgb(0xf5, 0xf5, 0xf5))
-            : new SolidColorBrush(Color.FromRgb(0x5a, 0x5a, 0x5a));
-
-        ProofKeyBtn.Content = DisplayKey(_s.ProofKey);
+        if (FindName("DeBindBtn") is Button deB) deB.Content = DisplayKey(_s.DeBind);
+        if (FindName("SeBindBtn") is Button seB) seB.Content = DisplayKey(_s.SeBind);
+        if (FindName("DbBindBtn") is Button dbB) dbB.Content = DisplayKey(_s.DbBind);
 
         DeToggle.IsChecked = _s.DeEnabled;
         SeToggle.IsChecked = _s.SeEnabled;
         DbToggle.IsChecked = _s.DbEnabled;
         IbToggle.IsChecked = _s.IbEnabled;
-        SpToggle.IsChecked = _s.SpEnabled;
-        PulloutPickaxeToggle.IsChecked = _s.PulloutPickaxe;
-        PulloutShotgunToggle.IsChecked = _s.PulloutShotgun;
+        
+        if (FindName("PulloutPickaxeBox") is CheckBox pB) pB.IsChecked = _s.PulloutPickaxe;
+        if (FindName("PulloutShotgunBox") is CheckBox sB) sB.IsChecked = _s.PulloutShotgun;
+        if (FindName("PulloutSlot1Box") is CheckBox s1B) s1B.IsChecked = _s.PulloutSlot1;
+        if (FindName("PulloutSlot2Box") is CheckBox s2B) s2B.IsChecked = _s.PulloutSlot2;
+        if (FindName("PulloutSlot3Box") is CheckBox s3B) s3B.IsChecked = _s.PulloutSlot3;
+        if (FindName("PulloutSlot4Box") is CheckBox s4B) s4B.IsChecked = _s.PulloutSlot4;
+        if (FindName("PulloutSlot5Box") is CheckBox s5B) s5B.IsChecked = _s.PulloutSlot5;
 
-        DeSlider.Value = _s.DeDelayMs;
-        SeSlider.Value = _s.SeDelayMs;
-        DbSlider.Value = _s.DbDelayMs;
-        IbSlider.Value = _s.IbDelayMs;
-        SpSlider.Value = _s.SpDelayMs;
+        if (FindName("DeDelaySlider") is Slider deS) deS.Value = _s.DeDelayMs;
+        if (FindName("SeDelaySlider") is Slider seS) seS.Value = _s.SeDelayMs;
+        if (FindName("DbDelaySlider") is Slider dbS) dbS.Value = _s.DbDelayMs;
+        if (FindName("IbDelaySlider") is Slider ibS) ibS.Value = _s.IbDelayMs;
     }
 
     private void InitKeybindButtons()
@@ -338,11 +328,10 @@ public partial class MainWindow : Window
 
     private void RefreshDelayLabels()
     {
-        DeDelayLabel.Text = $"{_s.DeDelayMs} ms";
-        SeDelayLabel.Text = $"{_s.SeDelayMs} ms";
-        DbDelayLabel.Text = $"{_s.DbDelayMs} ms";
-        IbDelayLabel.Text = $"{_s.IbDelayMs} ms";
-        SpDelayLabel.Text = $"{_s.SpDelayMs} ms";
+        if (FindName("DeDelayText") is TextBlock deT) deT.Text = $"{_s.DeDelayMs} ms";
+        if (FindName("SeDelayText") is TextBlock seT) seT.Text = $"{_s.SeDelayMs} ms";
+        if (FindName("DbDelayText") is TextBlock dbT) dbT.Text = $"{_s.DbDelayMs} ms";
+        if (FindName("IbDelayText") is TextBlock ibT) ibT.Text = $"{_s.IbDelayMs} ms";
     }
 
     private void RefreshStatusDots()
@@ -610,19 +599,8 @@ public partial class MainWindow : Window
 
     private void AnimateNavSelect(Button activate)
     {
-        if (_activeNavBtn != null && _activeNavBtn != activate)
-        {
-            var offBrush = new SolidColorBrush(Color.FromRgb(0x14, 0x14, 0x14));
-            _activeNavBtn.Background = offBrush;
-            offBrush.BeginAnimation(SolidColorBrush.ColorProperty,
-                new ColorAnimation(
-                    Color.FromRgb(0x14, 0x14, 0x14),
-                    Colors.Transparent,
-                    new Duration(TimeSpan.FromMilliseconds(200)))
-                { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } });
-        }
-
-        activate.Background = new SolidColorBrush(Color.FromRgb(0x14, 0x14, 0x14));
+        if (_activeNavBtn != null) _activeNavBtn.Tag = "";
+        activate.Tag = "Active";
         _activeNavBtn = activate;
     }
 
@@ -631,8 +609,8 @@ public partial class MainWindow : Window
         MacrosPanel.Visibility     = Visibility.Collapsed;
         SettingsPanel.Visibility   = Visibility.Collapsed;
         KeybindsPanel.Visibility   = Visibility.Collapsed;
-        CrosshairsPanel.Visibility = Visibility.Collapsed;
-        ArraylistPanel.Visibility  = Visibility.Collapsed;
+        if (FindName("CrosshairsPanel") is FrameworkElement cp) cp.Visibility = Visibility.Collapsed;
+        if (FindName("ArraylistPanel") is FrameworkElement ap) ap.Visibility = Visibility.Collapsed;
     }
 
     private void BtnMacros_Click(object s, RoutedEventArgs e)
@@ -668,8 +646,7 @@ public partial class MainWindow : Window
     private void BtnCrosshairs_Click(object s, RoutedEventArgs e)
     {
         HideAllPanels();
-        CrosshairsPanel.Visibility = Visibility.Visible;
-        FadeInPanel(CrosshairsPanel);
+        if (FindName("CrosshairsPanel") is FrameworkElement cp) cp.Visibility = Visibility.Visible;
         AnimateNavSelect(BtnCrosshairs);
         _scrollTarget = 0;
         MainScrollViewer.ScrollToTop();
@@ -678,8 +655,7 @@ public partial class MainWindow : Window
     private void BtnArraylist_Click(object s, RoutedEventArgs e)
     {
         HideAllPanels();
-        ArraylistPanel.Visibility = Visibility.Visible;
-        FadeInPanel(ArraylistPanel);
+        if (FindName("ArraylistPanel") is FrameworkElement ap) ap.Visibility = Visibility.Visible;
         AnimateNavSelect(BtnArraylist);
         _scrollTarget = 0;
         MainScrollViewer.ScrollToTop();
@@ -766,6 +742,11 @@ public partial class MainWindow : Window
     private void KbSecondaryPlaceBuildingBtn_Click(object s, RoutedEventArgs e) => StartBinding(KbSecondaryPlaceBuildingBtn, k => _s.KbSecondaryPlaceBuilding = k);
     private void KbPickaxeBtn_Click               (object s, RoutedEventArgs e) => StartBinding(KbPickaxeBtn,               k => _s.KbPickaxe                = k);
     private void KbShotgunBtn_Click               (object s, RoutedEventArgs e) => StartBinding(KbShotgunBtn,               k => _s.KbShotgun                = k);
+    private void KbSlot1Btn_Click                 (object s, RoutedEventArgs e) => StartBinding(KbSlot1Btn,                 k => _s.KbSlot1                  = k);
+    private void KbSlot2Btn_Click                 (object s, RoutedEventArgs e) => StartBinding(KbSlot2Btn,                 k => _s.KbSlot2                  = k);
+    private void KbSlot3Btn_Click                 (object s, RoutedEventArgs e) => StartBinding(KbSlot3Btn,                 k => _s.KbSlot3                  = k);
+    private void KbSlot4Btn_Click                 (object s, RoutedEventArgs e) => StartBinding(KbSlot4Btn,                 k => _s.KbSlot4                  = k);
+    private void KbSlot5Btn_Click                 (object s, RoutedEventArgs e) => StartBinding(KbSlot5Btn,                 k => _s.KbSlot5                  = k);
     private void KbSprintBtn_Click                (object s, RoutedEventArgs e) => StartBinding(KbSprintBtn,                k => _s.KbSprint                 = k);
     private void KbWalkForwardBtn_Click           (object s, RoutedEventArgs e) => StartBinding(KbWalkForwardBtn,           k => _s.KbWalkForward            = k);
     private void KbInteractBtn_Click              (object s, RoutedEventArgs e) => StartBinding(KbInteractBtn,              k => _s.KbInteract               = k);
@@ -778,54 +759,29 @@ public partial class MainWindow : Window
         _s.SeEnabled = SeToggle.IsChecked == true;
         _s.DbEnabled = DbToggle.IsChecked == true;
         _s.IbEnabled = IbToggle.IsChecked == true;
-        _s.SpEnabled = SpToggle.IsChecked == true;
-        _s.PulloutPickaxe = PulloutPickaxeToggle.IsChecked == true;
-        _s.PulloutShotgun = PulloutShotgunToggle.IsChecked == true;
-
-        if (s == PulloutPickaxeToggle && _s.PulloutPickaxe)
-        {
-            _s.PulloutShotgun = false;
-            PulloutShotgunToggle.IsChecked = false;
-        }
-        else if (s == PulloutShotgunToggle && _s.PulloutShotgun)
-        {
-            _s.PulloutPickaxe = false;
-            PulloutPickaxeToggle.IsChecked = false;
-        }
+        
+        if (FindName("PulloutPickaxeBox") is CheckBox pB) _s.PulloutPickaxe = pB.IsChecked == true;
+        if (FindName("PulloutShotgunBox") is CheckBox sB) _s.PulloutShotgun = sB.IsChecked == true;
+        if (FindName("PulloutSlot1Box") is CheckBox s1B) _s.PulloutSlot1 = s1B.IsChecked == true;
+        if (FindName("PulloutSlot2Box") is CheckBox s2B) _s.PulloutSlot2 = s2B.IsChecked == true;
+        if (FindName("PulloutSlot3Box") is CheckBox s3B) _s.PulloutSlot3 = s3B.IsChecked == true;
+        if (FindName("PulloutSlot4Box") is CheckBox s4B) _s.PulloutSlot4 = s4B.IsChecked == true;
+        if (FindName("PulloutSlot5Box") is CheckBox s5B) _s.PulloutSlot5 = s5B.IsChecked == true;
 
         RefreshStatusDots();
         RefreshArraylistOverlay();
     }
 
-    private void DeSlider_Changed(object s, RoutedPropertyChangedEventArgs<double> e)
+    private void Sliders_Changed(object s, RoutedPropertyChangedEventArgs<double> e)
     {
-        _s.DeDelayMs = (int)e.NewValue;
-        if (DeDelayLabel != null) DeDelayLabel.Text = $"{_s.DeDelayMs} ms";
+        if (s == DeDelaySlider) _s.DeDelayMs = (int)e.NewValue;
+        if (s == SeDelaySlider) _s.SeDelayMs = (int)e.NewValue;
+        if (s == DbDelaySlider) _s.DbDelayMs = (int)e.NewValue;
+        if (s == IbDelaySlider) _s.IbDelayMs = (int)e.NewValue;
+        RefreshDelayLabels();
     }
 
-    private void SeSlider_Changed(object s, RoutedPropertyChangedEventArgs<double> e)
-    {
-        _s.SeDelayMs = (int)e.NewValue;
-        if (SeDelayLabel != null) SeDelayLabel.Text = $"{_s.SeDelayMs} ms";
-    }
 
-    private void DbSlider_Changed(object s, RoutedPropertyChangedEventArgs<double> e)
-    {
-        _s.DbDelayMs = (int)e.NewValue;
-        if (DbDelayLabel != null) DbDelayLabel.Text = $"{_s.DbDelayMs} ms";
-    }
-
-    private void IbSlider_Changed(object s, RoutedPropertyChangedEventArgs<double> e)
-    {
-        _s.IbDelayMs = (int)e.NewValue;
-        if (IbDelayLabel != null) IbDelayLabel.Text = $"{_s.IbDelayMs} ms";
-    }
-
-    private void SpSlider_Changed(object s, RoutedPropertyChangedEventArgs<double> e)
-    {
-        _s.SpDelayMs = (int)e.NewValue;
-        if (SpDelayLabel != null) SpDelayLabel.Text = $"{_s.SpDelayMs} ms";
-    }
 
     private void Export_Click(object s, RoutedEventArgs e)
     {

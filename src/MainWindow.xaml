@@ -13,15 +13,15 @@
         TextOptions.TextFormattingMode="Display"
         TextOptions.TextRenderingMode="ClearType">
 
-    <Border x:Name="OuterBorder" CornerRadius="0" Background="#080808"
-            BorderBrush="#1e1e1e" BorderThickness="1"
+    <Border x:Name="OuterBorder" CornerRadius="12" Background="#0a0a0a"
+            BorderBrush="#222222" BorderThickness="1"
             ClipToBounds="True">
 
         <Grid ClipToBounds="True">
 
-            <Grid x:Name="StartupGrid" Background="#080808" Panel.ZIndex="10">
+            <!-- STARTUP OVERLAY -->
+            <Grid x:Name="StartupGrid" Background="#0a0a0a" Panel.ZIndex="10">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-
                     <TextBlock x:Name="AsciiText"
                                Text="MACRONIC"
                                FontFamily="{StaticResource BebasNeue}"
@@ -34,1520 +34,223 @@
                             <ScaleTransform/>
                         </TextBlock.RenderTransform>
                     </TextBlock>
-
                     <Rectangle x:Name="AccentLine"
-                               Height="1" Width="0"
+                               Height="2" Width="0"
                                HorizontalAlignment="Center"
                                Margin="0,10,0,0"
-                               Fill="#f5f5f5"
-                               Opacity="0.25"/>
-
+                               Fill="{StaticResource Accent}"
+                               Opacity="0.8"/>
                     <TextBlock x:Name="StatusText"
                                FontFamily="{StaticResource IBMPlexMono}"
                                FontSize="11"
-                               Foreground="#5a5a5a"
+                               Foreground="{StaticResource Muted}"
                                HorizontalAlignment="Center"
                                Margin="0,22,0,0"
                                Opacity="0"
                                Text=""/>
-
                 </StackPanel>
             </Grid>
 
+            <!-- MAIN UI -->
             <Border x:Name="MainGrid" Visibility="Collapsed"
                     Background="Transparent" Panel.ZIndex="1">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="50"/> <!-- TITLE BAR & NAV -->
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="50"/> <!-- FOOTER -->
                     </Grid.RowDefinitions>
 
+                    <!-- HEADER / NAVIGATION -->
                     <Border Grid.Row="0"
-                            Background="#080808"
-                            BorderBrush="#1e1e1e"
+                            Background="#0a0a0a"
+                            BorderBrush="#222222"
                             BorderThickness="0,0,0,1"
                             MouseLeftButtonDown="TitleBar_MouseDown"
                             MouseMove="TitleBar_MouseMove">
-                        <Grid Margin="18,0,8,0">
+                        <Grid Margin="20,0,10,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
                             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock Text="MACRONIC"
-                                           FontFamily="{StaticResource BebasNeue}"
-                                           FontSize="17"
+                                <Path Data="M 0,0 L 20,0 L 30,15 L 10,15 Z" Fill="{StaticResource Accent}" Width="30" Height="15" Margin="0,0,10,0" Stretch="Uniform"/>
+                                <TextBlock Text="ALL SERVICES"
+                                           FontFamily="{StaticResource IBMPlexMono}"
+                                           FontSize="12"
+                                           FontWeight="Bold"
                                            Foreground="#f5f5f5"
                                            VerticalAlignment="Center"/>
-                                <TextBlock Text=" PREMIUM"
-                                           FontFamily="{StaticResource BebasNeue}"
-                                           FontSize="17"
-                                           Foreground="#5a5a5a"
-                                           VerticalAlignment="Center"/>
-                                <TextBlock Text=" — v1.0.0"
-                                           FontFamily="{StaticResource IBMPlexMono}"
-                                           FontSize="9"
-                                           Foreground="#2a2a2a"
-                                           VerticalAlignment="Center"
-                                           Margin="10,1,0,0"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Center">
-                                <Button Content="—"
-                                        Style="{StaticResource TitleIconBtn}"
-                                        FontFamily="{StaticResource IBMPlexMono}"
-                                        FontSize="12"
-                                        Click="Minimize_Click"/>
-                                <Button Style="{StaticResource TitleCloseBtn}"
-                                        Margin="1,0,0,0"
-                                        Click="Close_Click"/>
+
+                            <!-- TOP NAVIGATION -->
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="40,0,0,0">
+                                <Button x:Name="BtnMacros" Content="DASHBOARD" Style="{StaticResource TopNavBtn}" Tag="Active" Click="BtnMacros_Click" Margin="0,0,20,0"/>
+                                <Button x:Name="BtnKeybinds" Content="KEYBINDS" Style="{StaticResource TopNavBtn}" Click="BtnKeybinds_Click" Margin="0,0,20,0"/>
+                                <Button x:Name="BtnSettings" Content="SETTINGS" Style="{StaticResource TopNavBtn}" Click="BtnSettings_Click" Margin="0,0,20,0"/>
+                                <Button x:Name="BtnCrosshairs" Content="CROSSHAIRS" Style="{StaticResource TopNavBtn}" Click="BtnCrosshairs_Click" Margin="0,0,20,0"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                                <Border Background="#1a2a1a" CornerRadius="4" Padding="8,4" Margin="0,0,10,0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Ellipse Width="6" Height="6" Fill="#44ff44" Margin="0,0,6,0"/>
+                                        <TextBlock Text="ACTIVE" FontSize="10" FontWeight="Bold" Foreground="#44ff44" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                                <Button Content="—" Style="{StaticResource TitleIconBtn}" Click="Minimize_Click"/>
+                                <Button Style="{StaticResource TitleCloseBtn}" Click="Close_Click"/>
                             </StackPanel>
                         </Grid>
                     </Border>
 
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="165"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Border Grid.Column="0"
-                                Background="#080808"
-                                BorderBrush="#1e1e1e"
-                                BorderThickness="0,0,1,0">
-                            <StackPanel Margin="0,20,0,0">
-
-                                <TextBlock Text="MAIN"
-                                           FontFamily="{StaticResource IBMPlexMono}"
-                                           FontSize="9"
-                                           Foreground="#5a5a5a"
-                                           Margin="16,0,0,6"/>
-
-                                <Button x:Name="BtnMacros"
-                                        Content="Helpers"
-                                        Style="{StaticResource SideNavBtn}"
-                                        Background="{StaticResource BgBtn}"
-                                        Margin="0,0,0,2"
-                                        Click="BtnMacros_Click">
-                                    <Button.Tag>
-                                        <SolidColorBrush Color="#1e1e1e"/>
-                                    </Button.Tag>
-                                </Button>
-
-                                <TextBlock Text="SYSTEM"
-                                           FontFamily="{StaticResource IBMPlexMono}"
-                                           FontSize="9"
-                                           Foreground="#5a5a5a"
-                                           Margin="16,18,0,6"/>
-
-                                <Button x:Name="BtnSettings"
-                                        Content="Settings"
-                                        Style="{StaticResource SideNavBtn}"
-                                        Margin="0,0,0,2"
-                                        Click="BtnSettings_Click"/>
-
-                                <Button x:Name="BtnKeybinds"
-                                        Content="Keybinds"
-                                        Style="{StaticResource SideNavBtn}"
-                                        Margin="0,0,0,2"
-                                        Click="BtnKeybinds_Click"/>
-
-                                <Button x:Name="BtnCrosshairs"
-                                        Content="Crosshairs"
-                                        Style="{StaticResource SideNavBtn}"
-                                        Margin="0,0,0,2"
-                                        Click="BtnCrosshairs_Click"/>
-
-                                <Button x:Name="BtnArraylist"
-                                        Content="Arraylist"
-                                        Style="{StaticResource SideNavBtn}"
-                                        Margin="0,0,0,2"
-                                        Click="BtnArraylist_Click"/>
-
-                                <Rectangle Height="1" Margin="16,28,16,0" Fill="#1e1e1e" Opacity="1"/>
-
-                            </StackPanel>
-                        </Border>
-
-                        <ScrollViewer x:Name="MainScrollViewer"
-                                      Grid.Column="1"
-                                      Background="#080808"
-                                      VerticalScrollBarVisibility="Auto"
-                                      Padding="0,0,2,0">
+                    <!-- CONTENT AREA -->
+                    <Grid Grid.Row="1" Background="#0d0d0d">
+                        <ScrollViewer x:Name="MainScrollViewer" VerticalScrollBarVisibility="Auto" Padding="40,30">
                             <Grid>
+                                <!-- DASHBOARD / HELPERS PANEL -->
+                                <StackPanel x:Name="MacrosPanel" Visibility="Visible">
+                                    <TextBlock Text="Panel Control" FontFamily="{StaticResource IBMPlexMono}" FontSize="14" Foreground="#f5f5f5" Margin="0,0,0,20"/>
+                                    
+                                    <!-- MODULE SELECTOR (HORIZONTAL) -->
+                                    <UniformGrid Columns="5" Margin="0,0,0,30">
+                                        <ToggleButton x:Name="DeToggle" Content="Drag Edit" Style="{StaticResource ModuleBtn}" Margin="0,0,10,0" Checked="Toggles_Changed" Unchecked="Toggles_Changed"/>
+                                        <ToggleButton x:Name="SeToggle" Content="Single Edit" Style="{StaticResource ModuleBtn}" Margin="0,0,10,0" Checked="Toggles_Changed" Unchecked="Toggles_Changed"/>
+                                        <ToggleButton x:Name="DbToggle" Content="Double Edit" Style="{StaticResource ModuleBtn}" Margin="0,0,10,0" Checked="Toggles_Changed" Unchecked="Toggles_Changed"/>
+                                        <ToggleButton x:Name="IbToggle" Content="Instant Build" Style="{StaticResource ModuleBtn}" Margin="0,0,10,0" Checked="Toggles_Changed" Unchecked="Toggles_Changed"/>
+                                        <ToggleButton x:Name="PulloutToggle" Content="Item Pullout" Style="{StaticResource ModuleBtn}" Checked="Toggles_Changed" Unchecked="Toggles_Changed"/>
+                                    </UniformGrid>
 
-                                <StackPanel x:Name="MacrosPanel" Margin="28,24,28,28">
-
-                                    <TextBlock Text="HELPERS"
-                                               FontFamily="{StaticResource BebasNeue}"
-                                               FontSize="38"
-                                               Foreground="#f5f5f5"
-                                               Margin="0,0,0,2"/>
-                                    <TextBlock Text="Configure your macro helpers and automation keybinds"
-                                               FontFamily="{StaticResource IBMPlexMono}"
-                                               FontSize="10"
-                                               Foreground="#5a5a5a"
-                                               Margin="0,0,0,18"/>
-                                    <Rectangle Height="1" Fill="#1e1e1e" Margin="0,0,0,18"/>
-
-                                    <!-- DRAG EDIT -->
-                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
-                                            Background="#0f0f0f" Margin="0,0,0,10">
+                                    <!-- DYNAMIC SETTINGS AREA (Currently showing Double Edit as example) -->
+                                    <Grid x:Name="ModuleSettingsContainer">
+                                        <!-- This would be dynamically updated, but for now we put everything in a stack -->
                                         <StackPanel>
-                                            <Border BorderBrush="#1e1e1e" BorderThickness="0,0,0,1"
-                                                    Padding="18,14,18,14">
+                                            <!-- DOUBLE EDIT SECTION -->
+                                            <Border Background="#111111" CornerRadius="8" Padding="25" Margin="0,0,0,20" BorderBrush="#222222" BorderThickness="1">
                                                 <Grid>
-                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                        <TextBlock Text="DE"
-                                                                   FontFamily="{StaticResource BebasNeue}"
-                                                                   FontSize="34"
-                                                                   Foreground="#2a2a2a"
-                                                                   VerticalAlignment="Center"
-                                                                   Width="46"
-                                                                   Margin="0,0,10,0"/>
-                                                        <StackPanel VerticalAlignment="Center">
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <Ellipse x:Name="DeStatusDot"
-                                                                         Width="5" Height="5"
-                                                                         Fill="#1a2a1a"
-                                                                         Margin="0,0,8,0"
-                                                                         VerticalAlignment="Center"/>
-                                                                <TextBlock Text="DRAG EDIT"
-                                                                           FontFamily="{StaticResource IBMPlexMono}"
-                                                                           FontSize="11"
-                                                                           FontWeight="Bold"
-                                                                           Foreground="#f5f5f5"/>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="20"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                                                        <TextBlock Text="Double Edit" FontSize="14" FontWeight="Bold" Foreground="#f5f5f5" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                                                        <ToggleButton IsChecked="{Binding IsChecked, ElementName=DbToggle, Mode=TwoWay}" Style="{StaticResource ToggleSwitch}"/>
+                                                        <TextBlock Text="ON" FontSize="10" Foreground="{StaticResource Accent}" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                                                    </StackPanel>
+
+                                                    <StackPanel Grid.Row="2" Grid.Column="0" Margin="0,0,10,0">
+                                                        <Border Background="#1a1a1a" CornerRadius="6" Padding="15,10">
+                                                            <StackPanel>
+                                                                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                                                                    <Border Background="{StaticResource AccentDim}" CornerRadius="4" Width="24" Height="24" Margin="0,0,10,0">
+                                                                        <TextBlock Text="K" Foreground="{StaticResource Accent}" FontSize="12" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                    </Border>
+                                                                    <TextBlock Text="KEYBIND" FontSize="10" Foreground="{StaticResource Muted}" VerticalAlignment="Center"/>
+                                                                </StackPanel>
+                                                                <Button x:Name="DbBindBtn" Style="{StaticResource DarkBtn}" Background="Transparent" HorizontalContentAlignment="Left" Click="DbBindBtn_Click" Content="R"/>
                                                             </StackPanel>
-                                                            <TextBlock Text="Automatically drag edits when holding down the bound key"
-                                                                       FontFamily="{StaticResource IBMPlexMono}"
-                                                                       FontSize="10"
-                                                                       Foreground="#5a5a5a"
-                                                                       Margin="0,4,0,0"/>
-                                                        </StackPanel>
+                                                        </Border>
                                                     </StackPanel>
-                                                    <ToggleButton x:Name="DeToggle"
-                                                                  Style="{StaticResource ToggleSwitch}"
-                                                                  HorizontalAlignment="Right"
-                                                                  VerticalAlignment="Center"
-                                                                  Checked="Toggles_Changed"
-                                                                  Unchecked="Toggles_Changed"/>
-                                                </Grid>
-                                            </Border>
 
-                                            <Grid Margin="18,14,18,14">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="12"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <StackPanel Grid.Column="0">
-                                                    <TextBlock Text="KEYBIND"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"/>
-                                                    <Button x:Name="DeBindBtn"
-                                                            Style="{StaticResource DarkBtn}"
-                                                            Margin="0,5,0,0"
-                                                            HorizontalAlignment="Stretch"
-                                                            Click="DeBindBtn_Click"/>
-                                                </StackPanel>
-                                            </Grid>
-
-                                            <Border BorderBrush="#1e1e1e" BorderThickness="0,1,0,0"
-                                                    Padding="18,12,18,14">
-                                                <StackPanel>
-                                                    <Grid Margin="0,0,0,8">
-                                                        <TextBlock Text="DELAY (MS)"
-                                                                   FontFamily="{StaticResource IBMPlexMono}"
-                                                                   FontSize="9" Foreground="#5a5a5a"/>
-                                                        <TextBlock x:Name="DeDelayLabel"
-                                                                   FontFamily="{StaticResource IBMPlexMono}"
-                                                                   FontSize="9" FontWeight="Bold"
-                                                                   Foreground="#f5f5f5"
-                                                                   HorizontalAlignment="Right"/>
-                                                    </Grid>
-                                                    <Slider x:Name="DeSlider"
-                                                            Style="{StaticResource DarkSlider}"
-                                                            Minimum="10" Maximum="200" Value="85"
-                                                            ValueChanged="DeSlider_Changed"/>
-                                                </StackPanel>
-                                            </Border>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <!-- SINGLE EDIT -->
-                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
-                                            Background="#0f0f0f" Margin="0,0,0,10">
-                                        <StackPanel>
-                                            <Border BorderBrush="#1e1e1e" BorderThickness="0,0,0,1"
-                                                    Padding="18,14,18,14">
-                                                <Grid>
-                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                        <TextBlock Text="SE"
-                                                                   FontFamily="{StaticResource BebasNeue}"
-                                                                   FontSize="34"
-                                                                   Foreground="#2a2a2a"
-                                                                   VerticalAlignment="Center"
-                                                                   Width="46"
-                                                                   Margin="0,0,10,0"/>
-                                                        <StackPanel VerticalAlignment="Center">
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <Ellipse x:Name="SeStatusDot"
-                                                                         Width="5" Height="5"
-                                                                         Fill="#1a2a1a"
-                                                                         Margin="0,0,8,0"
-                                                                         VerticalAlignment="Center"/>
-                                                                <TextBlock Text="SINGLE EDIT"
-                                                                           FontFamily="{StaticResource IBMPlexMono}"
-                                                                           FontSize="11"
-                                                                           FontWeight="Bold"
-                                                                           Foreground="#f5f5f5"/>
+                                                    <StackPanel Grid.Row="2" Grid.Column="1" Margin="10,0,0,0">
+                                                        <Border Background="#1a1a1a" CornerRadius="6" Padding="15,10">
+                                                            <StackPanel>
+                                                                <Grid Margin="0,0,0,10">
+                                                                    <StackPanel Orientation="Horizontal">
+                                                                        <Border Background="{StaticResource AccentDim}" CornerRadius="4" Width="24" Height="24" Margin="0,0,10,0">
+                                                                            <TextBlock Text="ms" Foreground="{StaticResource Accent}" FontSize="10" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                        </Border>
+                                                                        <TextBlock Text="DELAY" FontSize="10" Foreground="{StaticResource Muted}" VerticalAlignment="Center"/>
+                                                                    </StackPanel>
+                                                                    <TextBlock x:Name="DbDelayText" Text="0 ms" FontSize="11" Foreground="#f5f5f5" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                                                </Grid>
+                                                                <Slider x:Name="DbDelaySlider" Style="{StaticResource DarkSlider}" Minimum="0" Maximum="100" ValueChanged="Sliders_Changed"/>
                                                             </StackPanel>
-                                                            <TextBlock Text="Instant edits a build with one click"
-                                                                       FontFamily="{StaticResource IBMPlexMono}"
-                                                                       FontSize="10"
-                                                                       Foreground="#5a5a5a"
-                                                                       Margin="0,4,0,0"/>
-                                                        </StackPanel>
+                                                        </Border>
                                                     </StackPanel>
-                                                    <ToggleButton x:Name="SeToggle"
-                                                                  Style="{StaticResource ToggleSwitch}"
-                                                                  HorizontalAlignment="Right"
-                                                                  VerticalAlignment="Center"
-                                                                  Checked="Toggles_Changed"
-                                                                  Unchecked="Toggles_Changed"/>
                                                 </Grid>
                                             </Border>
-
-                                            <Grid Margin="18,14,18,14">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="12"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <StackPanel Grid.Column="0">
-                                                    <TextBlock Text="KEYBIND"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"/>
-                                                    <Button x:Name="SeBindBtn"
-                                                            Style="{StaticResource DarkBtn}"
-                                                            Margin="0,5,0,0"
-                                                            HorizontalAlignment="Stretch"
-                                                            Click="SeBindBtn_Click"/>
-                                                </StackPanel>
-                                            </Grid>
-
-                                            <Border BorderBrush="#1e1e1e" BorderThickness="0,1,0,0"
-                                                    Padding="18,12,18,14">
+                                            
+                                            <!-- ITEM PULLOUT SECTION -->
+                                            <Border Background="#111111" CornerRadius="8" Padding="25" Margin="0,0,0,20" BorderBrush="#222222" BorderThickness="1">
                                                 <StackPanel>
-                                                    <Grid Margin="0,0,0,8">
-                                                        <TextBlock Text="DELAY (MS)"
-                                                                   FontFamily="{StaticResource IBMPlexMono}"
-                                                                   FontSize="9" Foreground="#5a5a5a"/>
-                                                        <TextBlock x:Name="SeDelayLabel"
-                                                                   FontFamily="{StaticResource IBMPlexMono}"
-                                                                   FontSize="9" FontWeight="Bold"
-                                                                   Foreground="#f5f5f5"
-                                                                   HorizontalAlignment="Right"/>
-                                                    </Grid>
-                                                    <Slider x:Name="SeSlider"
-                                                            Style="{StaticResource DarkSlider}"
-                                                            Minimum="10" Maximum="200" Value="85"
-                                                            ValueChanged="SeSlider_Changed"/>
+                                                    <TextBlock Text="Item Pullout Configuration" FontSize="14" FontWeight="Bold" Foreground="#f5f5f5" Margin="0,0,0,20"/>
+                                                    <UniformGrid Columns="4">
+                                                        <CheckBox x:Name="PulloutPickaxeBox" Content="Pickaxe" Foreground="#f5f5f5" Checked="Toggles_Changed" Unchecked="Toggles_Changed" Margin="0,0,0,10"/>
+                                                        <CheckBox x:Name="PulloutShotgunBox" Content="Shotgun" Foreground="#f5f5f5" Checked="Toggles_Changed" Unchecked="Toggles_Changed" Margin="0,0,0,10"/>
+                                                        <CheckBox x:Name="PulloutSlot1Box" Content="Slot 1" Foreground="#f5f5f5" Checked="Toggles_Changed" Unchecked="Toggles_Changed" Margin="0,0,0,10"/>
+                                                        <CheckBox x:Name="PulloutSlot2Box" Content="Slot 2" Foreground="#f5f5f5" Checked="Toggles_Changed" Unchecked="Toggles_Changed" Margin="0,0,0,10"/>
+                                                        <CheckBox x:Name="PulloutSlot3Box" Content="Slot 3" Foreground="#f5f5f5" Checked="Toggles_Changed" Unchecked="Toggles_Changed" Margin="0,0,0,10"/>
+                                                        <CheckBox x:Name="PulloutSlot4Box" Content="Slot 4" Foreground="#f5f5f5" Checked="Toggles_Changed" Unchecked="Toggles_Changed" Margin="0,0,0,10"/>
+                                                        <CheckBox x:Name="PulloutSlot5Box" Content="Slot 5" Foreground="#f5f5f5" Checked="Toggles_Changed" Unchecked="Toggles_Changed" Margin="0,0,0,10"/>
+                                                    </UniformGrid>
                                                 </StackPanel>
                                             </Border>
                                         </StackPanel>
-                                    </Border>
-
-                                    <!-- DOUBLE EDIT -->
-                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
-                                            Background="#0f0f0f" Margin="0,0,0,10">
-                                        <StackPanel>
-                                            <Border BorderBrush="#1e1e1e" BorderThickness="0,0,0,1"
-                                                    Padding="18,14,18,14">
-                                                <Grid>
-                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                        <TextBlock Text="DB"
-                                                                   FontFamily="{StaticResource BebasNeue}"
-                                                                   FontSize="34"
-                                                                   Foreground="#2a2a2a"
-                                                                   VerticalAlignment="Center"
-                                                                   Width="46"
-                                                                   Margin="0,0,10,0"/>
-                                                        <StackPanel VerticalAlignment="Center">
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <Ellipse x:Name="DbStatusDot"
-                                                                         Width="5" Height="5"
-                                                                         Fill="#1a2a1a"
-                                                                         Margin="0,0,8,0"
-                                                                         VerticalAlignment="Center"/>
-                                                                <TextBlock Text="DOUBLE EDIT"
-                                                                           FontFamily="{StaticResource IBMPlexMono}"
-                                                                           FontSize="11"
-                                                                           FontWeight="Bold"
-                                                                           Foreground="#f5f5f5"/>
-                                                            </StackPanel>
-                                                            <TextBlock Text="Edits a build twice while holding down the bound key"
-                                                                       FontFamily="{StaticResource IBMPlexMono}"
-                                                                       FontSize="10"
-                                                                       Foreground="#5a5a5a"
-                                                                       Margin="0,4,0,0"/>
-                                                        </StackPanel>
-                                                    </StackPanel>
-                                                    <ToggleButton x:Name="DbToggle"
-                                                                  Style="{StaticResource ToggleSwitch}"
-                                                                  HorizontalAlignment="Right"
-                                                                  VerticalAlignment="Center"
-                                                                  Checked="Toggles_Changed"
-                                                                  Unchecked="Toggles_Changed"/>
-                                                </Grid>
-                                            </Border>
-
-                                            <Grid Margin="18,14,18,14">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="12"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <StackPanel Grid.Column="0">
-                                                    <TextBlock Text="KEYBIND"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"/>
-                                                    <Button x:Name="DbBindBtn"
-                                                            Style="{StaticResource DarkBtn}"
-                                                            Margin="0,5,0,0"
-                                                            HorizontalAlignment="Stretch"
-                                                            Click="DbBindBtn_Click"/>
-                                                </StackPanel>
-                                            </Grid>
-
-                                            <Border BorderBrush="#1e1e1e" BorderThickness="0,1,0,0"
-                                                    Padding="18,12,18,14">
-                                                <StackPanel>
-                                                    <Grid Margin="0,0,0,8">
-                                                        <TextBlock Text="DELAY (MS)"
-                                                                   FontFamily="{StaticResource IBMPlexMono}"
-                                                                   FontSize="9" Foreground="#5a5a5a"/>
-                                                        <TextBlock x:Name="DbDelayLabel"
-                                                                   FontFamily="{StaticResource IBMPlexMono}"
-                                                                   FontSize="9" FontWeight="Bold"
-                                                                   Foreground="#f5f5f5"
-                                                                   HorizontalAlignment="Right"/>
-                                                    </Grid>
-                                                    <Slider x:Name="DbSlider"
-                                                            Style="{StaticResource DarkSlider}"
-                                                            Minimum="10" Maximum="200" Value="85"
-                                                            ValueChanged="DbSlider_Changed"/>
-                                                </StackPanel>
-                                            </Border>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <!-- INSTANT BUILD -->
-                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
-                                            Background="#0f0f0f" Margin="0,0,0,10">
-                                        <StackPanel>
-                                            <Border BorderBrush="#1e1e1e" BorderThickness="0,0,0,1"
-                                                    Padding="18,14,18,14">
-                                                <Grid>
-                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                        <TextBlock Text="IB"
-                                                                   FontFamily="{StaticResource BebasNeue}"
-                                                                   FontSize="34"
-                                                                   Foreground="#2a2a2a"
-                                                                   VerticalAlignment="Center"
-                                                                   Width="46"
-                                                                   Margin="0,0,10,0"/>
-                                                        <StackPanel VerticalAlignment="Center">
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <Ellipse x:Name="IbStatusDot"
-                                                                         Width="5" Height="5"
-                                                                         Fill="#1a2a1a"
-                                                                         Margin="0,0,8,0"
-                                                                         VerticalAlignment="Center"/>
-                                                                <TextBlock Text="INSTANT BUILD"
-                                                                           FontFamily="{StaticResource IBMPlexMono}"
-                                                                           FontSize="11"
-                                                                           FontWeight="Bold"
-                                                                           Foreground="#f5f5f5"/>
-                                                            </StackPanel>
-                                                            <TextBlock Text="Instantly places your builds with 1 press"
-                                                                       FontFamily="{StaticResource IBMPlexMono}"
-                                                                       FontSize="10"
-                                                                       Foreground="#5a5a5a"
-                                                                       Margin="0,4,0,0"/>
-                                                        </StackPanel>
-                                                    </StackPanel>
-                                                    <ToggleButton x:Name="IbToggle"
-                                                                  Style="{StaticResource ToggleSwitch}"
-                                                                  HorizontalAlignment="Right"
-                                                                  VerticalAlignment="Center"
-                                                                  Checked="Toggles_Changed"
-                                                                  Unchecked="Toggles_Changed"/>
-                                                </Grid>
-                                            </Border>
-
-                                            <Border BorderBrush="#1e1e1e" BorderThickness="0,1,0,0"
-                                                    Padding="18,12,18,14">
-                                                <StackPanel>
-                                                    <Grid Margin="0,0,0,8">
-                                                        <TextBlock Text="DELAY (MS)"
-                                                                   FontFamily="{StaticResource IBMPlexMono}"
-                                                                   FontSize="9" Foreground="#5a5a5a"/>
-                                                        <TextBlock x:Name="IbDelayLabel"
-                                                                   FontFamily="{StaticResource IBMPlexMono}"
-                                                                   FontSize="9" FontWeight="Bold"
-                                                                   Foreground="#f5f5f5"
-                                                                   HorizontalAlignment="Right"/>
-                                                    </Grid>
-                                                    <Slider x:Name="IbSlider"
-                                                            Style="{StaticResource DarkSlider}"
-                                                            Minimum="10" Maximum="200" Value="85"
-                                                            ValueChanged="IbSlider_Changed"/>
-                                                </StackPanel>
-                                            </Border>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <!-- SPRINT -->
-                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
-                                            Background="#0f0f0f" Margin="0,0,0,10">
-                                        <StackPanel>
-                                            <Border BorderBrush="#1e1e1e" BorderThickness="0,0,0,1"
-                                                    Padding="18,14,18,14">
-                                                <Grid>
-                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                        <TextBlock Text="SP"
-                                                                   FontFamily="{StaticResource BebasNeue}"
-                                                                   FontSize="34"
-                                                                   Foreground="#2a2a2a"
-                                                                   VerticalAlignment="Center"
-                                                                   Width="46"
-                                                                   Margin="0,0,10,0"/>
-                                                        <StackPanel VerticalAlignment="Center">
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <Ellipse x:Name="SpStatusDot"
-                                                                         Width="5" Height="5"
-                                                                         Fill="#1a2a1a"
-                                                                         Margin="0,0,8,0"
-                                                                         VerticalAlignment="Center"/>
-                                                                <TextBlock Text="SPRINT"
-                                                                           FontFamily="{StaticResource IBMPlexMono}"
-                                                                           FontSize="11"
-                                                                           FontWeight="Bold"
-                                                                           Foreground="#f5f5f5"/>
-                                                            </StackPanel>
-                                                            <TextBlock Text="Keeps sprinting once pressed the bind"
-                                                                       FontFamily="{StaticResource IBMPlexMono}"
-                                                                       FontSize="10"
-                                                                       Foreground="#5a5a5a"
-                                                                       Margin="0,4,0,0"/>
-                                                        </StackPanel>
-                                                    </StackPanel>
-                                                    <ToggleButton x:Name="SpToggle"
-                                                                  Style="{StaticResource ToggleSwitch}"
-                                                                  HorizontalAlignment="Right"
-                                                                  VerticalAlignment="Center"
-                                                                  Checked="Toggles_Changed"
-                                                                  Unchecked="Toggles_Changed"/>
-                                                </Grid>
-                                            </Border>
-
-                                            <Grid Margin="18,14,18,14">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="12"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <StackPanel Grid.Column="0">
-                                                    <TextBlock Text="KEYBIND"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"/>
-                                                    <Button x:Name="SpBindBtn"
-                                                            Style="{StaticResource DarkBtn}"
-                                                            Margin="0,5,0,0"
-                                                            HorizontalAlignment="Stretch"
-                                                            Click="SpBindBtn_Click"/>
-                                                </StackPanel>
-
-                                                <StackPanel Grid.Column="2">
-                                                    <TextBlock Text="MODE"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"/>
-                                                    <Button x:Name="SpModeBtn"
-                                                            Style="{StaticResource DarkBtn}"
-                                                            Margin="0,5,0,0"
-                                                            HorizontalAlignment="Stretch"
-                                                            Click="SpModeBtn_Click"/>
-                                                    <Border x:Name="SpModeDropdown"
-                                                            Height="0"
-                                                            ClipToBounds="True"
-                                                            Background="#080808"
-                                                            BorderBrush="#1e1e1e"
-                                                            BorderThickness="1"
-                                                            Margin="0,2,0,0">
-                                                        <StackPanel>
-                                                            <Button x:Name="SpModeToggleBtn"
-                                                                    Content="Toggle"
-                                                                    FontFamily="{StaticResource IBMPlexMono}"
-                                                                    FontSize="10"
-                                                                    Foreground="#f5f5f5"
-                                                                    BorderThickness="0"
-                                                                    Padding="10,6,10,6"
-                                                                    HorizontalContentAlignment="Left"
-                                                                    Cursor="Hand"
-                                                                    Click="SpModeToggleBtn_Click">
-                                                                <Button.Style>
-                                                                    <Style TargetType="Button">
-                                                                        <Setter Property="Background" Value="Transparent"/>
-                                                                        <Setter Property="Template">
-                                                                            <Setter.Value>
-                                                                                <ControlTemplate TargetType="Button">
-                                                                                    <Border x:Name="Bd" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                                                                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
-                                                                                    </Border>
-                                                                                    <ControlTemplate.Triggers>
-                                                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                                                            <Setter TargetName="Bd" Property="Background" Value="#1a1a1a"/>
-                                                                                        </Trigger>
-                                                                                    </ControlTemplate.Triggers>
-                                                                                </ControlTemplate>
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                    </Style>
-                                                                </Button.Style>
-                                                            </Button>
-                                                            <Rectangle Height="1" Fill="#1e1e1e"/>
-                                                            <Button x:Name="SpModeHoldBtn"
-                                                                    Content="Hold"
-                                                                    FontFamily="{StaticResource IBMPlexMono}"
-                                                                    FontSize="9"
-                                                                    Foreground="#5a5a5a"
-                                                                    BorderThickness="0"
-                                                                    Padding="10,5,10,5"
-                                                                    HorizontalContentAlignment="Left"
-                                                                    Cursor="Hand"
-                                                                    Click="SpModeHoldBtn_Click">
-                                                                <Button.Style>
-                                                                    <Style TargetType="Button">
-                                                                        <Setter Property="Background" Value="Transparent"/>
-                                                                        <Setter Property="Template">
-                                                                            <Setter.Value>
-                                                                                <ControlTemplate TargetType="Button">
-                                                                                    <Border x:Name="Bd" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                                                                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
-                                                                                    </Border>
-                                                                                    <ControlTemplate.Triggers>
-                                                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                                                            <Setter TargetName="Bd" Property="Background" Value="#1a1a1a"/>
-                                                                                        </Trigger>
-                                                                                    </ControlTemplate.Triggers>
-                                                                                </ControlTemplate>
-                                                                            </Setter.Value>
-                                                                        </Setter>
-                                                                    </Style>
-                                                                </Button.Style>
-                                                            </Button>
-                                                        </StackPanel>
-                                                    </Border>
-                                                </StackPanel>
-                                            </Grid>
-
-                                            <Border BorderBrush="#1e1e1e" BorderThickness="0,1,0,0"
-                                                    Padding="18,12,18,14">
-                                                <StackPanel>
-                                                    <Grid Margin="0,0,0,8">
-                                                        <TextBlock Text="DELAY (MS)"
-                                                                   FontFamily="{StaticResource IBMPlexMono}"
-                                                                   FontSize="9" Foreground="#5a5a5a"/>
-                                                        <TextBlock x:Name="SpDelayLabel"
-                                                                   FontFamily="{StaticResource IBMPlexMono}"
-                                                                   FontSize="9" FontWeight="Bold"
-                                                                   Foreground="#f5f5f5"
-                                                                   HorizontalAlignment="Right"/>
-                                                    </Grid>
-                                                    <Slider x:Name="SpSlider"
-                                                            Style="{StaticResource DarkSlider}"
-                                                            Minimum="10" Maximum="200" Value="85"
-                                                            ValueChanged="SpSlider_Changed"/>
-                                                </StackPanel>
-                                            </Border>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <!-- ITEM PULLOUT -->
-                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
-                                            Background="#0f0f0f" Margin="0,0,0,10">
-                                        <StackPanel>
-                                            <Border BorderBrush="#1e1e1e" BorderThickness="0,0,0,1"
-                                                    Padding="18,14,18,14">
-                                                <Grid>
-                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                                        <TextBlock Text="IP"
-                                                                   FontFamily="{StaticResource BebasNeue}"
-                                                                   FontSize="34"
-                                                                   Foreground="#2a2a2a"
-                                                                   VerticalAlignment="Center"
-                                                                   Width="46"
-                                                                   Margin="0,0,10,0"/>
-                                                        <StackPanel VerticalAlignment="Center">
-                                                            <TextBlock Text="ITEM PULLOUT"
-                                                                       FontFamily="{StaticResource IBMPlexMono}"
-                                                                       FontSize="11"
-                                                                       FontWeight="Bold"
-                                                                       Foreground="#f5f5f5"/>
-                                                            <TextBlock Text="Automatically pulls out item after edit"
-                                                                       FontFamily="{StaticResource IBMPlexMono}"
-                                                                       FontSize="10"
-                                                                       Foreground="#5a5a5a"
-                                                                       Margin="0,4,0,0"/>
-                                                        </StackPanel>
-                                                    </StackPanel>
-                                                </Grid>
-                                            </Border>
-
-                                            <Grid Margin="18,14,18,14">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto"/>
-                                                    <RowDefinition Height="14"/>
-                                                    <RowDefinition Height="Auto"/>
-                                                </Grid.RowDefinitions>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="12"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="12"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <StackPanel Grid.Row="0" Grid.Column="0">
-                                                    <TextBlock Text="PULLOUT PICKAXE"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"/>
-                                                    <ToggleButton x:Name="PulloutPickaxeToggle"
-                                                                  Style="{StaticResource ToggleSwitch}"
-                                                                  HorizontalAlignment="Left"
-                                                                  Margin="0,8,0,0"
-                                                                  Checked="Toggles_Changed"
-                                                                  Unchecked="Toggles_Changed"/>
-                                                </StackPanel>
-
-                                                <StackPanel Grid.Row="0" Grid.Column="2">
-                                                    <TextBlock Text="PULLOUT SHOTGUN"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"/>
-                                                    <ToggleButton x:Name="PulloutShotgunToggle"
-                                                                  Style="{StaticResource ToggleSwitch}"
-                                                                  HorizontalAlignment="Left"
-                                                                  Margin="0,8,0,0"
-                                                                  Checked="Toggles_Changed"
-                                                                  Unchecked="Toggles_Changed"/>
-                                                </StackPanel>
-
-                                                <StackPanel Grid.Row="0" Grid.Column="4">
-                                                    <TextBlock Text="SLOT 1"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"/>
-                                                    <ToggleButton x:Name="PulloutSlot1Toggle"
-                                                                  Style="{StaticResource ToggleSwitch}"
-                                                                  HorizontalAlignment="Left"
-                                                                  Margin="0,8,0,0"
-                                                                  Checked="Toggles_Changed"
-                                                                  Unchecked="Toggles_Changed"/>
-                                                </StackPanel>
-
-                                                <StackPanel Grid.Row="2" Grid.Column="0">
-                                                    <TextBlock Text="SLOT 2"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"/>
-                                                    <ToggleButton x:Name="PulloutSlot2Toggle"
-                                                                  Style="{StaticResource ToggleSwitch}"
-                                                                  HorizontalAlignment="Left"
-                                                                  Margin="0,8,0,0"
-                                                                  Checked="Toggles_Changed"
-                                                                  Unchecked="Toggles_Changed"/>
-                                                </StackPanel>
-
-                                                <StackPanel Grid.Row="2" Grid.Column="2">
-                                                    <TextBlock Text="SLOT 3"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"/>
-                                                    <ToggleButton x:Name="PulloutSlot3Toggle"
-                                                                  Style="{StaticResource ToggleSwitch}"
-                                                                  HorizontalAlignment="Left"
-                                                                  Margin="0,8,0,0"
-                                                                  Checked="Toggles_Changed"
-                                                                  Unchecked="Toggles_Changed"/>
-                                                </StackPanel>
-
-                                                <StackPanel Grid.Row="2" Grid.Column="4">
-                                                    <TextBlock Text="SLOT 4/5"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"/>
-                                                    <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                                                        <ToggleButton x:Name="PulloutSlot4Toggle"
-                                                                      Style="{StaticResource ToggleSwitch}"
-                                                                      Checked="Toggles_Changed"
-                                                                      Unchecked="Toggles_Changed"/>
-                                                        <ToggleButton x:Name="PulloutSlot5Toggle"
-                                                                      Style="{StaticResource ToggleSwitch}"
-                                                                      Margin="8,0,0,0"
-                                                                      Checked="Toggles_Changed"
-                                                                      Unchecked="Toggles_Changed"/>
-                                                    </StackPanel>
-                                                </StackPanel>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Border>
-
+                                    </Grid>
                                 </StackPanel>
 
-                                <StackPanel x:Name="SettingsPanel" Margin="28,24,28,28" Visibility="Collapsed">
-
-                                    <TextBlock Text="SETTINGS"
-                                               FontFamily="{StaticResource BebasNeue}"
-                                               FontSize="38"
-                                               Foreground="#f5f5f5"
-                                               Margin="0,0,0,2"/>
-                                    <TextBlock Text="General configuration and profile management"
-                                               FontFamily="{StaticResource IBMPlexMono}"
-                                               FontSize="10"
-                                               Foreground="#5a5a5a"
-                                               Margin="0,0,0,18"/>
-                                    <Rectangle Height="1" Fill="#1e1e1e" Margin="0,0,0,18"/>
-
-                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
-                                            Background="#0f0f0f" Margin="0,0,0,10">
-                                        <StackPanel Margin="18,16,18,18">
-                                            <TextBlock Text="GENERAL"
-                                                       FontFamily="{StaticResource BebasNeue}"
-                                                       FontSize="18"
-                                                       Foreground="#f5f5f5"
-                                                       Margin="0,0,0,14"/>
-
-                                            <TextBlock Text="PROOF WINDOW KEY"
-                                                       FontFamily="{StaticResource IBMPlexMono}"
-                                                       FontSize="9" Foreground="#5a5a5a"/>
-                                            <Button x:Name="ProofKeyBtn"
-                                                    Style="{StaticResource DarkBtn}"
-                                                    Margin="0,5,0,0"
-                                                    HorizontalAlignment="Stretch"
-                                                    Click="ProofKeyBtn_Click"/>
+                                <!-- SETTINGS PANEL -->
+                                <StackPanel x:Name="SettingsPanel" Visibility="Collapsed" Margin="0,0,0,0">
+                                    <TextBlock Text="Application Settings" FontFamily="{StaticResource IBMPlexMono}" FontSize="14" Foreground="#f5f5f5" Margin="0,0,0,20"/>
+                                    <Border Background="#111111" CornerRadius="8" Padding="25" BorderBrush="#222222" BorderThickness="1">
+                                        <StackPanel>
+                                            <CheckBox x:Name="AutoUpdateBox" Content="Enable Auto Updates" Foreground="#f5f5f5" Margin="0,0,0,15" Checked="Toggles_Changed" Unchecked="Toggles_Changed"/>
+                                            <CheckBox x:Name="OverlayBox" Content="Show In-Game Overlay" Foreground="#f5f5f5" Margin="0,0,0,15" Checked="Toggles_Changed" Unchecked="Toggles_Changed"/>
+                                            <CheckBox x:Name="BeepBox" Content="Sound Feedback on Toggle" Foreground="#f5f5f5" Margin="0,0,0,15" Checked="Toggles_Changed" Unchecked="Toggles_Changed"/>
                                         </StackPanel>
                                     </Border>
-
-                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
-                                            Background="#0f0f0f" Margin="0,0,0,10">
-                                        <StackPanel Margin="18,16,18,18">
-                                            <TextBlock Text="PROFILES"
-                                                       FontFamily="{StaticResource BebasNeue}"
-                                                       FontSize="18"
-                                                       Foreground="#f5f5f5"
-                                                       Margin="0,0,0,14"/>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="12"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Button Grid.Column="0"
-                                                        Content="EXPORT PROFILE"
-                                                        Style="{StaticResource AccentBtn}"
-                                                        Click="Export_Click"/>
-                                                <Button Grid.Column="2"
-                                                        Content="IMPORT PROFILE"
-                                                        Style="{StaticResource AccentBtn}"
-                                                        Click="Import_Click"/>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Border>
-
                                 </StackPanel>
 
-                                <StackPanel x:Name="KeybindsPanel" Margin="28,24,28,28" Visibility="Collapsed">
-
-                                    <TextBlock Text="KEYBINDS"
-                                               FontFamily="{StaticResource BebasNeue}"
-                                               FontSize="38"
-                                               Foreground="#f5f5f5"
-                                               Margin="0,0,0,2"/>
-                                    <TextBlock Text="Assign your in-game keybinds for macro integration"
-                                               FontFamily="{StaticResource IBMPlexMono}"
-                                               FontSize="10"
-                                               Foreground="#5a5a5a"
-                                               Margin="0,0,0,18"/>
-                                    <Rectangle Height="1" Fill="#1e1e1e" Margin="0,0,0,18"/>
-
-                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
-                                            Background="#0f0f0f" Margin="0,0,0,10">
-                                        <StackPanel Margin="18,14,18,16">
-                                            <TextBlock Text="EDIT BINDS"
-                                                       FontFamily="{StaticResource BebasNeue}"
-                                                       FontSize="16"
-                                                       Foreground="#f5f5f5"
-                                                       Margin="0,0,0,14"/>
-
-                                            <Grid Margin="0,0,0,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Building Edit"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Edit key bind"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbBuildingEditBtn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbBuildingEditBtn_Click"/>
-                                            </Grid>
-
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Select Building Edit"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Select-edit key bind"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbSelectBuildingEditBtn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbSelectBuildingEditBtn_Click"/>
-                                            </Grid>
-                                        </StackPanel>
+                                <!-- KEYBINDS PANEL -->
+                                <StackPanel x:Name="KeybindsPanel" Visibility="Collapsed">
+                                    <TextBlock Text="Game Keybinds" FontFamily="{StaticResource IBMPlexMono}" FontSize="14" Foreground="#f5f5f5" Margin="0,0,0,20"/>
+                                    <Border Background="#111111" CornerRadius="8" Padding="25" BorderBrush="#222222" BorderThickness="1">
+                                        <UniformGrid Columns="2">
+                                            <StackPanel Margin="0,0,10,10">
+                                                <TextBlock Text="Edit Key" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbBuildingEditBtn" Style="{StaticResource DarkBtn}" Click="KbBuildingEditBtn_Click"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="10,0,0,10">
+                                                <TextBlock Text="Select Edit" FontSize="10" Foreground="{StaticResource Muted}" Margin="0,0,0,5"/>
+                                                <Button x:Name="KbSelectBuildingEditBtn" Style="{StaticResource DarkBtn}" Click="KbSelectBuildingEditBtn_Click"/>
+                                            </StackPanel>
+                                            <!-- Add more as needed -->
+                                        </UniformGrid>
                                     </Border>
-
-                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
-                                            Background="#0f0f0f" Margin="0,0,0,10">
-                                        <StackPanel Margin="18,14,18,16">
-                                            <TextBlock Text="BUILD BINDS"
-                                                       FontFamily="{StaticResource BebasNeue}"
-                                                       FontSize="16"
-                                                       Foreground="#f5f5f5"
-                                                       Margin="0,0,0,14"/>
-
-                                            <Grid Margin="0,0,0,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Wall"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Place wall piece"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbWallBtn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbWallBtn_Click"/>
-                                            </Grid>
-
-                                            <Grid Margin="0,0,0,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Floor"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Place floor piece"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbFloorBtn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbFloorBtn_Click"/>
-                                            </Grid>
-
-                                            <Grid Margin="0,0,0,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Stairs"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Place stair piece"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbStairsBtn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbStairsBtn_Click"/>
-                                            </Grid>
-
-                                            <Grid Margin="0,0,0,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Cone"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Place cone piece"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbConeBtn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbConeBtn_Click"/>
-                                            </Grid>
-
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Secondary Place Building"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Secondary build placement"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbSecondaryPlaceBuildingBtn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbSecondaryPlaceBuildingBtn_Click"/>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
-                                            Background="#0f0f0f" Margin="0,0,0,10">
-                                        <StackPanel Margin="18,14,18,16">
-                                            <TextBlock Text="WEAPON BINDS"
-                                                       FontFamily="{StaticResource BebasNeue}"
-                                                       FontSize="16"
-                                                       Foreground="#f5f5f5"
-                                                       Margin="0,0,0,14"/>
-
-                                            <Grid Margin="0,0,0,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Pickaxe"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Switch to pickaxe slot"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbPickaxeBtn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbPickaxeBtn_Click"/>
-                                            </Grid>
-
-                                            <Grid Margin="0,0,0,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Shotgun"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Switch to shotgun slot"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbShotgunBtn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbShotgunBtn_Click"/>
-                                            </Grid>
-
-                                            <Grid Margin="0,0,0,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Slot 1"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Weapon slot 1 bind"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbSlot1Btn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbSlot1Btn_Click"/>
-                                            </Grid>
-
-                                            <Grid Margin="0,0,0,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Slot 2"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Weapon slot 2 bind"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbSlot2Btn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbSlot2Btn_Click"/>
-                                            </Grid>
-
-                                            <Grid Margin="0,0,0,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Slot 3"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Weapon slot 3 bind"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbSlot3Btn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbSlot3Btn_Click"/>
-                                            </Grid>
-
-                                            <Grid Margin="0,0,0,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Slot 4"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Weapon slot 4 bind"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbSlot4Btn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbSlot4Btn_Click"/>
-                                            </Grid>
-
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Slot 5"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Weapon slot 5 bind"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbSlot5Btn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbSlot5Btn_Click"/>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
-                                            Background="#0f0f0f" Margin="0,0,0,10">
-                                        <StackPanel Margin="18,14,18,16">
-                                            <TextBlock Text="OTHER BINDS"
-                                                       FontFamily="{StaticResource BebasNeue}"
-                                                       FontSize="16"
-                                                       Foreground="#f5f5f5"
-                                                       Margin="0,0,0,14"/>
-
-                                            <Grid Margin="0,0,0,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Sprint"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Sprint / run key"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbSprintBtn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbSprintBtn_Click"/>
-                                            </Grid>
-
-                                            <Grid Margin="0,0,0,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Walk Forward"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Forward movement key"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbWalkForwardBtn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbWalkForwardBtn_Click"/>
-                                            </Grid>
-
-                                            <Grid Margin="0,0,0,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Interact"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Use / interact key"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbInteractBtn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbInteractBtn_Click"/>
-                                            </Grid>
-
-                                            <Grid Margin="0,0,0,10">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Secondary Shoot"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Alt fire / aim key"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbSecondaryShootBtn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbSecondaryShootBtn_Click"/>
-                                            </Grid>
-
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="120"/>
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="Secondary Wall"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="11" Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Secondary wall placement"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,2,0,0"/>
-                                                </StackPanel>
-                                                <Button x:Name="KbSecondaryWallBtn"
-                                                        Grid.Column="1"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        HorizontalAlignment="Stretch"
-                                                        Click="KbSecondaryWallBtn_Click"/>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Border>
-
                                 </StackPanel>
-
-                                <StackPanel x:Name="CrosshairsPanel" Margin="28,24,28,28" Visibility="Collapsed">
-
-                                    <TextBlock Text="CROSSHAIRS"
-                                               FontFamily="{StaticResource BebasNeue}"
-                                               FontSize="38"
-                                               Foreground="#f5f5f5"
-                                               Margin="0,0,0,2"/>
-                                    <TextBlock Text="Configure your persistent screen crosshair overlay"
-                                               FontFamily="{StaticResource IBMPlexMono}"
-                                               FontSize="10"
-                                               Foreground="#5a5a5a"
-                                               Margin="0,0,0,18"/>
-                                    <Rectangle Height="1" Fill="#1e1e1e" Margin="0,0,0,18"/>
-
-                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
-                                            Background="#0f0f0f" Margin="0,0,0,10">
-                                        <StackPanel Margin="18,16,18,18">
-                                            <TextBlock Text="TEMPLATE"
-                                                       FontFamily="{StaticResource BebasNeue}"
-                                                       FontSize="18"
-                                                       Foreground="#f5f5f5"
-                                                       Margin="0,0,0,4"/>
-                                            <TextBlock Text="Click a style to select it — click again to deselect"
-                                                       FontFamily="{StaticResource IBMPlexMono}"
-                                                       FontSize="9"
-                                                       Foreground="#5a5a5a"
-                                                       Margin="0,0,0,14"/>
-                                            <WrapPanel x:Name="CrTemplatePanel"/>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
-                                            Background="#0f0f0f" Margin="0,0,0,10">
-                                        <StackPanel Margin="18,16,18,18">
-                                            <TextBlock Text="OPTIONS"
-                                                       FontFamily="{StaticResource BebasNeue}"
-                                                       FontSize="18"
-                                                       Foreground="#f5f5f5"
-                                                       Margin="0,0,0,14"/>
-
-                                            <TextBlock Text="COLOR"
-                                                       FontFamily="{StaticResource IBMPlexMono}"
-                                                       FontSize="9" Foreground="#5a5a5a"
-                                                       Margin="0,0,0,8"/>
-                                            <WrapPanel x:Name="CrColorPanel" Margin="0,0,0,16"/>
-
-                                            <Border BorderBrush="#1e1e1e" BorderThickness="0,0,0,1"
-                                                    Margin="0,0,0,14" Padding="0,0,0,14">
-                                                <Grid>
-                                                    <StackPanel VerticalAlignment="Center">
-                                                        <TextBlock Text="OUTLINE"
-                                                                   FontFamily="{StaticResource IBMPlexMono}"
-                                                                   FontSize="9" FontWeight="Bold"
-                                                                   Foreground="#f5f5f5"/>
-                                                        <TextBlock Text="Draw a dark outline behind the crosshair shape"
-                                                                   FontFamily="{StaticResource IBMPlexMono}"
-                                                                   FontSize="9" Foreground="#5a5a5a"
-                                                                   Margin="0,3,0,0"/>
-                                                    </StackPanel>
-                                                    <ToggleButton x:Name="CrOutlineToggle"
-                                                                  Style="{StaticResource ToggleSwitch}"
-                                                                  HorizontalAlignment="Right"
-                                                                  VerticalAlignment="Center"
-                                                                  Checked="CrToggle_Changed"
-                                                                  Unchecked="CrToggle_Changed"/>
-                                                </Grid>
-                                            </Border>
-
-                                            <Grid Margin="0,0,0,8">
-                                                <TextBlock Text="OUTLINE THICKNESS"
-                                                           FontFamily="{StaticResource IBMPlexMono}"
-                                                           FontSize="9" Foreground="#5a5a5a"/>
-                                                <TextBlock x:Name="CrOutlineSizeLabel"
-                                                           FontFamily="{StaticResource IBMPlexMono}"
-                                                           FontSize="9" FontWeight="Bold"
-                                                           Foreground="#f5f5f5"
-                                                           HorizontalAlignment="Right"/>
-                                            </Grid>
-                                            <Slider x:Name="CrOutlineSizeSlider"
-                                                    Style="{StaticResource DarkSlider}"
-                                                    Minimum="1" Maximum="5" Value="1"
-                                                    Margin="0,0,0,16"
-                                                    ValueChanged="CrOutlineSizeSlider_Changed"/>
-
-                                            <Grid Margin="0,0,0,8">
-                                                <TextBlock Text="SIZE (%)"
-                                                           FontFamily="{StaticResource IBMPlexMono}"
-                                                           FontSize="9" Foreground="#5a5a5a"/>
-                                                <TextBlock x:Name="CrSizeLabel"
-                                                           FontFamily="{StaticResource IBMPlexMono}"
-                                                           FontSize="9" FontWeight="Bold"
-                                                           Foreground="#f5f5f5"
-                                                           HorizontalAlignment="Right"/>
-                                            </Grid>
-                                            <Slider x:Name="CrSizeSlider"
-                                                    Style="{StaticResource DarkSlider}"
-                                                    Minimum="50" Maximum="200" Value="100"
-                                                    ValueChanged="CrSizeSlider_Changed"/>
-                                        </StackPanel>
-                                    </Border>
-
-                                </StackPanel>
-
-                                <StackPanel x:Name="ArraylistPanel" Margin="28,24,28,28" Visibility="Collapsed">
-
-                                    <TextBlock Text="ARRAYLIST"
-                                               FontFamily="{StaticResource BebasNeue}"
-                                               FontSize="38"
-                                               Foreground="#f5f5f5"
-                                               Margin="0,0,0,2"/>
-                                    <TextBlock Text="Show active macros as an on-screen overlay"
-                                               FontFamily="{StaticResource IBMPlexMono}"
-                                               FontSize="10"
-                                               Foreground="#5a5a5a"
-                                               Margin="0,0,0,18"/>
-                                    <Rectangle Height="1" Fill="#1e1e1e" Margin="0,0,0,18"/>
-
-                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
-                                            Background="#0f0f0f" Margin="0,0,0,10">
-                                        <StackPanel Margin="18,16,18,18">
-                                            <TextBlock Text="GENERAL"
-                                                       FontFamily="{StaticResource BebasNeue}"
-                                                       FontSize="18"
-                                                       Foreground="#f5f5f5"
-                                                       Margin="0,0,0,14"/>
-                                            <Grid>
-                                                <StackPanel VerticalAlignment="Center">
-                                                    <TextBlock Text="ENABLED"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" FontWeight="Bold"
-                                                               Foreground="#f5f5f5"/>
-                                                    <TextBlock Text="Show the arraylist overlay while macros are active"
-                                                               FontFamily="{StaticResource IBMPlexMono}"
-                                                               FontSize="9" Foreground="#5a5a5a"
-                                                               Margin="0,3,0,0"/>
-                                                </StackPanel>
-                                                <ToggleButton x:Name="AlEnabledToggle"
-                                                              Style="{StaticResource ToggleSwitch}"
-                                                              HorizontalAlignment="Right"
-                                                              VerticalAlignment="Center"
-                                                              Checked="AlToggle_Changed"
-                                                              Unchecked="AlToggle_Changed"/>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <Border BorderBrush="#1e1e1e" BorderThickness="1"
-                                            Background="#0f0f0f" Margin="0,0,0,10">
-                                        <StackPanel Margin="18,16,18,18">
-                                            <TextBlock Text="POSITION"
-                                                       FontFamily="{StaticResource BebasNeue}"
-                                                       FontSize="18"
-                                                       Foreground="#f5f5f5"
-                                                       Margin="0,0,0,4"/>
-                                            <TextBlock Text="Choose which screen corner the arraylist anchors to"
-                                                       FontFamily="{StaticResource IBMPlexMono}"
-                                                       FontSize="9" Foreground="#5a5a5a"
-                                                       Margin="0,0,0,14"/>
-
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="10"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto"/>
-                                                    <RowDefinition Height="8"/>
-                                                    <RowDefinition Height="Auto"/>
-                                                </Grid.RowDefinitions>
-
-                                                <Button x:Name="AlPosTopLeft"
-                                                        Grid.Row="0" Grid.Column="0"
-                                                        Content="TOP LEFT"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        Click="AlPosTopLeft_Click"/>
-                                                <Button x:Name="AlPosTopRight"
-                                                        Grid.Row="0" Grid.Column="2"
-                                                        Content="TOP RIGHT"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        Click="AlPosTopRight_Click"/>
-                                                <Button x:Name="AlPosBotLeft"
-                                                        Grid.Row="2" Grid.Column="0"
-                                                        Content="BOTTOM LEFT"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        Click="AlPosBotLeft_Click"/>
-                                                <Button x:Name="AlPosBotRight"
-                                                        Grid.Row="2" Grid.Column="2"
-                                                        Content="BOTTOM RIGHT"
-                                                        Style="{StaticResource DarkBtn}"
-                                                        Click="AlPosBotRight_Click"/>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Border>
-
-                                </StackPanel>
-
                             </Grid>
                         </ScrollViewer>
-
                     </Grid>
+
+                    <!-- FOOTER -->
+                    <Border Grid.Row="2" Background="#0a0a0a" BorderBrush="#222222" BorderThickness="0,1,0,0">
+                        <Grid Margin="20,0">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Button Content="Apply Settings" Style="{StaticResource AccentBtnPink}" Width="120" Margin="0,0,10,0" Click="Export_Click"/>
+                                <Button Content="Reset All" Style="{StaticResource DarkBtn}" Background="#1a1a1a" Width="100" Click="Import_Click"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <TextBlock Text="In Game FPS:" FontSize="10" Foreground="{StaticResource Muted}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                                <ComboBox Background="#1a1a1a" Foreground="#f5f5f5" BorderThickness="0" Width="80" Height="24" VerticalContentAlignment="Center">
+                                    <ComboBoxItem Content="144 FPS"/>
+                                    <ComboBoxItem Content="240 FPS"/>
+                                    <ComboBoxItem Content="360 FPS"/>
+                                    <ComboBoxItem Content="500+" IsSelected="True"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
                 </Grid>
             </Border>
-
-            <Border x:Name="GoodbyeOverlay"
-                    Panel.ZIndex="100"
-                    Visibility="Collapsed"
-                    Opacity="0"
-                    Background="#080808">
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Text="GOODBYE."
-                               FontFamily="{StaticResource BebasNeue}"
-                               FontSize="72"
-                               Foreground="#f5f5f5"
-                               HorizontalAlignment="Center"/>
-                    <TextBlock Text="See you next time."
-                               FontFamily="{StaticResource IBMPlexMono}"
-                               FontSize="11"
-                               Foreground="#5a5a5a"
-                               HorizontalAlignment="Center"
-                               Margin="0,12,0,0"/>
-                </StackPanel>
-            </Border>
-
         </Grid>
     </Border>
-
 </Window>
